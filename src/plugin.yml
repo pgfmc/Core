@@ -10,8 +10,77 @@ load: POSTWORLD
 prefix: PGF-Core
 
 commands:
-  test:
-    description: test command
+  gmc:
+    description: Change the player gamemode to creative
+    usage: /<command> [player]
+    permission: pgf.cmd.gamemode.creative
+  gms:
+    description: Change the player gamemode to survival
+    usage: /<command> [player]
+    permission: pgf.cmd.gamemode.survival
+  gma:
+    description: Change the player gamemode to adventure
+    usage: /<command> [player]
+    permission: pgf.cmd.gamemode.adventure
+  gmsp:
+    description: Change the player gamemode to spectator
+    usage: /<command> [player]
+    permission: pgf.cmd.gamemode.spectator
+  goto:
+    description: Teleport to a different world
+    usage: /<command> [world]
+    permission: pgf.cmd.goto
+  vanish:
+    description: Sets the player invisible
     usage: /<command>
-    aliases: [cmd, tst]
-    permission: pgf.cmd.test
+    aliases: [v, invis]
+    permission: pgf.admin.vanish
+  fly:
+    description: Sets the player in flight
+    usage: /<command>
+    permission: pgf.cmd.fly
+  god:
+    description: Sets the player to a god-like state
+    usage: /<command>
+    permission: pgf.admin.god
+  sudo:
+    description: Forcefully execute a chat message or command (include slash for commands)
+    usage: /<command> [player] [msg or /cmd]
+    permission: pgf.admin.sudo
+  heal:
+    description: Heal yourself or another player
+    usage: /<command> [player]
+    permission: pgf.cmd.heal
+  block:
+    description: Block a player from all requests
+    usage: /<command> [player]
+    permission: pgf.cmd.block
+  link:
+    usage: /<command>
+    description: sends the sender a code to link their discord account
+    permission: pgf.cmd.link
+  unlink:
+    usage: /<command>
+    description: unlinks the user's discord account.
+    permission: pgf.cmd.unlink
+  backup:
+    usage: /<command>
+    description: Backup the server files then restarts
+    permission: pgf.admin.backup
+  backupconfirm:
+    usage: /<command>
+    description: Confirm the backup
+    permission: pgf.admin.backup
+  day:
+    usage: /<command>
+    description: Sets the time to day and weather to clear
+    permission: pgf.admin.day
+  dimtoggle:
+    usage: /<command>
+    description: Set a world accessible or not
+    permission: pgf.admin.toggledim
+    aliases: [toggleworld, togdim, tdim]
+  restore:
+     usage: /<command>
+     description: restores a previous backup
+     permission: pgf.admin.restore
