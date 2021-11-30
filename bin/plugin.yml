@@ -1,0 +1,17 @@
+name: PGF-Core
+version: 1.0.0
+api-version: 1.17
+authors: [bk, CrimsonDart]
+website: pgfmc.net
+main: net.pgfmc.core.Main
+description: Core for all of PGF
+depend: [Java_discord_API]
+load: POSTWORLD
+prefix: PGF-Core
+
+commands:
+  test:
+    description: test command
+    usage: /<command>
+    aliases: [cmd, tst]
+    permission: pgf.cmd.test
