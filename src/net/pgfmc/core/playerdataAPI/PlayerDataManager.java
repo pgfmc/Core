@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import net.pgfmc.core.Main;
+import net.pgfmc.core.CoreMain;
 
 public class PlayerDataManager implements Listener {
 	
@@ -60,7 +60,7 @@ public class PlayerDataManager implements Listener {
 	 * Begins the queue saving loop.
 	 */
 	private static void initializeQ() {
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.plugin, new Runnable() {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CoreMain.plugin, new Runnable() {
 			
 			@Override
 			public void run() {

@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.PermissionAttachment;
 
-import net.pgfmc.core.Main;
+import net.pgfmc.core.CoreMain;
 import net.pgfmc.core.permissions.Roles.Role;
 import net.pgfmc.core.playerdataAPI.PlayerData;
 
@@ -91,6 +91,7 @@ public class Permissions implements Listener {
 			"pgf.admin.sudo",
 			"pgf.cmd.heal",
 			"pgf.admin.day",
+			"pgf.admin.pgf",
 			"bukkit.command.restart",
 			"bukkit.commands.timings",
 			"bukkit.command.reload",
@@ -122,8 +123,7 @@ public class Permissions implements Listener {
 			"bukkit.command.whitelist.enable",
 			"bukkit.command.whitelist.disable",
 			"bukkit.command.whitelist.reload",
-			"bukkit.command.xp",
-			//"bukkit.command.*"
+			"bukkit.command.xp"
 	};
 	
 	public static void recalcPerms(PlayerData pd) {
@@ -132,7 +132,7 @@ public class Permissions implements Listener {
 		
 		Player p = pd.getPlayer();
 			
-		PermissionAttachment permatch = p.addAttachment(Main.plugin);
+		PermissionAttachment permatch = p.addAttachment(CoreMain.plugin);
 		
 		if (r != null) {
 			
@@ -158,11 +158,6 @@ public class Permissions implements Listener {
 			
 			for (String s : adminPerms) {
 				permatch.setPermission(s, r.contains(Role.ADMIN));
-			}
-			
-			if (((String) pd.getData("Discord")).equals("243499063838769152")) // bk
-			{
-				permatch.setPermission("bukkit.command.*", true);
 			}
 		} else {
 			for (String s : defaultPerms) {

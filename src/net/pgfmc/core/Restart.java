@@ -20,7 +20,7 @@ public class Restart {
 	 */
 	public void init()
 	{
-		taskID = Bukkit.getScheduler().runTaskTimer(Main.plugin, new Runnable()
+		taskID = Bukkit.getScheduler().runTaskTimer(CoreMain.plugin, new Runnable()
 		{
             public void run()
             {
@@ -42,12 +42,12 @@ public class Restart {
             		case 3: // 3 seconds
             			Bukkit.broadcastMessage("§d§lServer restarting, be back soon!");
             			break;
-            		case 0: // Restarts now
-                		
-                		new Backup().backup();
-                		commit();
-                		
                 	default: break;
+            	}
+            	if (timeLeft <= 0)
+            	{
+            		new Backup().backup();
+            		commit();
             	}
             	
             	time += 1;

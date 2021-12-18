@@ -82,7 +82,7 @@ public class Vector4 {
 	 * @return World
 	 */
 	public World world() {
-		return DimManager.intToWorld(w);
+		return DimManager.intToWorld(w, "survival");
 	}
 	
 	/**

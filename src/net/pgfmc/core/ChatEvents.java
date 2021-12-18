@@ -48,7 +48,7 @@ public class ChatEvents implements Listener {
 		e.setFormat(pd.getRankedName() + "§8 -> " + getMessageColor(e.getPlayer().getUniqueId().toString()) + e.getMessage());
 		
 		Discord.sendMessage(pd.getNickname(true) + " -> " + e.getMessage());
-		System.out.println(pd.getNickname(true));
+		// System.out.println(pd.getNickname(true));
 	}
 	
 	@EventHandler
@@ -90,7 +90,7 @@ public class ChatEvents implements Listener {
 	
 	@EventHandler
 	public void onAdvancementDone(PlayerAdvancementDoneEvent e) throws IOException {
-		String logPath = Main.pwd + File.separator + "logs" + File.separator + "latest.log";
+		String logPath = CoreMain.pwd + File.separator + "logs" + File.separator + "latest.log";
 		
 		List<String> all = Files.readAllLines(Paths.get(logPath), Charset.forName("Cp1252"));
 		String adv = all.get(all.size() - 1);

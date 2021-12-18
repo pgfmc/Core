@@ -9,8 +9,6 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import net.pgfmc.survival.dim.Worlds;
-
 public class DimManager {
 	
 	/**
@@ -21,7 +19,7 @@ public class DimManager {
 	 */
 	public static boolean canGotoWorld(Player p, String world)
 	{
-		FileConfiguration config = Main.plugin.getConfig();
+		FileConfiguration config = CoreMain.plugin.getConfig();
 		updateConfigForWorldPermissionAccess();
 		
 		// checks if the world exists and that the player has the permission needed (false is either is null or false)
@@ -33,10 +31,12 @@ public class DimManager {
 	}
 	
 	/**
-	 * Tests if a player is in a specified world
+	 * Tests if a player is in a specified world, does not test for dimension
+	 * 
 	 * @author bk
-	 * @param current Player's current world
-	 * @param expected World to check for
+	 * @param current Player's current world, dimensions are okay
+	 * @param expected World to check for without dimension
+	 * 
 	 * @return true if in the world, false if else
 	 */
 	public static boolean isInWorld(String current, String expected)
@@ -54,13 +54,40 @@ public class DimManager {
 		return false;
 	}
 	
+	public static boolean isInOverworld(World world)
+	{
+		String name = world.getName();
+		if (name.contains("_nether") || name.contains("_the_end")) { return false; }
+		
+		return true;
+	}
+	
+	public static boolean isInNether(World world)
+	{
+		String name = world.getName();
+		if (name.contains("_nether") && !name.contains("_the_end")) { return true; }
+		
+		return false;
+	}
+	
+	public static boolean isInEnd(World world)
+	{
+		String name = world.getName();
+		if (!name.contains("_nether") && name.contains("_the_end")) { return true; }
+		
+		return false;
+	}
+	
 	/**
+	 * Use isInWorld(String current, String expected) -- It isn't survival explicit
+	 * 
 	 * @author CrimsonDart
 	 * @param world any World
 	 * @return if "world" is a survival world, true. else, false.
 	 */
+	@Deprecated
 	public static boolean isSurvivalWorld(World world) {
-		if (Worlds.SURVIVAL.equals(world) || Worlds.SURVIVAL_NETHER.equals(world) || Worlds.SURVIVAL_END.equals(world)) {
+		if (world.getName().contains("survival")) {
 			return true;
 		} else {
 			return false;
@@ -101,40 +128,40 @@ public class DimManager {
 		getAllWorldNames()
 		.stream().
 		filter( world -> Optional
-				.ofNullable(Main.plugin.getConfig()
+				.ofNullable(CoreMain.plugin.getConfig()
 						.get("dim.permission." + world))
 				.isEmpty())
 		// Continuation of above, for each world, set a default permission (pgf.dim.<world name>)
-		.forEach(world -> Main.plugin.getConfig()
+		.forEach(world -> CoreMain.plugin.getConfig()
 				.set("dim.permission." + world, "pgf.dim." + world));
 		
 		// Gets all multiverse worlds, filters the worlds that don't have an access option set
 				getAllWorldNames()
 				.stream()
 				.filter(world -> Optional
-						.ofNullable(Main.plugin.getConfig()
+						.ofNullable(CoreMain.plugin.getConfig()
 								.get("dim.access." + world))
 						.isEmpty())
 				// Continuation of above, for each world, set a default access (true)
-				.forEach(world -> Main.plugin.getConfig().set("dim.access." + world, true));
+				.forEach(world -> CoreMain.plugin.getConfig().set("dim.access." + world, true));
 				
-				Main.plugin.saveConfig();
+				CoreMain.plugin.saveConfig();
 	}
 	
 	/**
 	 * @author CrimsonDart
 	 * @return a World's associated integer
-	 * @param world Any Survival World
+	 * @param world Any world
 	 */
-	public static int worldToInt(World world) { // converts a survival world to an int. returns 3 for all exceptions.
+	public static int worldToInt(World world) { // converts a world to an int. returns 3 for all exceptions.
 		
 		if (world == null) {
 			return 3;
-		} else if (Worlds.SURVIVAL.equals(world)) {
+		} else if (isInOverworld(world)) {
 			return 0;
-		} else if (Worlds.SURVIVAL_NETHER.equals(world)) {
+		} else if (isInNether(world)) {
 			return 1;
-		} else if (Worlds.SURVIVAL_END.equals(world)) {
+		} else if (isInEnd(world)) {
 			return 2;
 		} else {
 			return 3;
@@ -147,25 +174,19 @@ public class DimManager {
 	 * @return an integer's associated World
 	 * @param integer any integer 0 - 2
 	 */
-	public static World intToWorld(int integer) { // the inverse operation of worldToInt
+	public static World intToWorld(int integer, String world) { // the inverse operation of worldToInt
 		
 		if (integer == 0) {
-			return Worlds.SURVIVAL.world;
+			return Bukkit.getWorld(world);
 			
 		} else if (integer == 1) {
-			return Worlds.SURVIVAL_NETHER.world;
+			return Bukkit.getWorld(world + "_nether");
 			
 		} else if (integer == 2 ) {
-			return Worlds.SURVIVAL_END.world;
+			return Bukkit.getWorld(world + "_the_end");
 			
 		}
 		return null;
-	}
-	
-	public static World getWorld(String world)
-	{
-		
-		return Optional.ofNullable(Bukkit.getWorld(world)).orElse(null);
 	}
 
 }

@@ -17,7 +17,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import net.pgfmc.core.Main;
+import net.pgfmc.core.CoreMain;
 import net.pgfmc.core.Mixins;
 import net.pgfmc.core.cmd.donator.Nick;
 import net.pgfmc.core.permissions.Roles.Role;
@@ -298,11 +298,11 @@ public class PlayerData extends AbstractPlayerData {
 	 * @return a player's associated FileConfiguration from database.yml.
 	 */
 	public Object loadFromFile(String path) {
-		return Mixins.getDatabase(Main.PlayerDataPath + File.separator + getUniqueId().toString() + ".yml").get(path);
+		return Mixins.getDatabase(CoreMain.PlayerDataPath + File.separator + getUniqueId().toString() + ".yml").get(path);
 	}
 	
 	public FileConfiguration loadFile() {
-		return Mixins.getDatabase(Main.PlayerDataPath + File.separator + getUniqueId().toString() + ".yml");
+		return Mixins.getDatabase(CoreMain.PlayerDataPath + File.separator + getUniqueId().toString() + ".yml");
 	}
 	
 	/**
@@ -313,13 +313,13 @@ public class PlayerData extends AbstractPlayerData {
 	 */
 	public void saveToFile(String path, Object payload) {
 
-		FileConfiguration database = Mixins.getDatabase(Main.PlayerDataPath + File.separator + getUniqueId().toString() + ".yml");
+		FileConfiguration database = Mixins.getDatabase(CoreMain.PlayerDataPath + File.separator + getUniqueId().toString() + ".yml");
 		database.set(path, payload);
 		//queue.forEach((s, o) -> database.set(s, o));
 		//queue.clear();
 		System.out.println("Queue saved to system!");
 		
-		Mixins.saveDatabase(database, Main.PlayerDataPath + File.separator + getUniqueId().toString() + ".yml");
+		Mixins.saveDatabase(database, CoreMain.PlayerDataPath + File.separator + getUniqueId().toString() + ".yml");
 	}
 	
 	/**

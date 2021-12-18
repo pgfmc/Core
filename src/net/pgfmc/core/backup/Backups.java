@@ -10,8 +10,8 @@ import java.util.stream.Stream;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import net.pgfmc.core.Main;
-import net.pgfmc.core.Main.Machine;
+import net.pgfmc.core.CoreMain;
+import net.pgfmc.core.CoreMain.Machine;
 import net.pgfmc.core.Mixins;
 
 public class Backups {
@@ -27,7 +27,7 @@ public class Backups {
 	 */
 	public static void backup(Backup b)
 	{
-		if (!(Main.machine == Machine.TEST)) { return; }
+		if (!(CoreMain.machine == Machine.TEST)) { return; }
 		
 		System.out.println("Creating thread.");
 		
@@ -35,7 +35,7 @@ public class Backups {
 		 * Save the server before backing up
 		 * Not doing this results in faulty backups
 		 */
-		Bukkit.getScheduler().callSyncMethod(Main.plugin, () -> Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "save-all"));
+		Bukkit.getScheduler().callSyncMethod(CoreMain.plugin, () -> Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "save-all"));
 		
 		/*
 		 * Creates a new thread to run this on, makes it so server doesn't crash lol (jk idk how it works)
@@ -43,8 +43,8 @@ public class Backups {
 		Thread thread = new Thread() {
 			public void run() {				
 				try {
-					String sourceDir = Main.pwd;
-					String destDir = Main.backupDir + b.backup.get("date") + File.separator;
+					String sourceDir = CoreMain.pwd;
+					String destDir = CoreMain.backupDir + b.backup.get("date") + File.separator;
 					File source = new File(sourceDir);
 					File dest = new File(destDir);
 					dest.mkdirs();

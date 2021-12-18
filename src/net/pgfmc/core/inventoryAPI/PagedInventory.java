@@ -125,8 +125,8 @@ public abstract class PagedInventory<T> extends InteractableInventory {
 		this.pages = (int) Math.ceil(entries.size() / size.getPageSize());
 		
 		setPage(page);
-		System.out.println(String.valueOf(pages));
-		System.out.println(String.valueOf(entries.size()));
+		// System.out.println(String.valueOf(pages));
+		// System.out.println(String.valueOf(entries.size()));
 	}
 	
 	/**

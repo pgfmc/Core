@@ -2,6 +2,7 @@ package net.pgfmc.core.cmd;
 
 import java.util.Optional;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -105,7 +106,7 @@ public class Goto implements CommandExecutor {
 			if (DimManager.canGotoWorld(p, args[0]))
 			{
 				World currentWorld = p.getLocation().getWorld();
-				World gotoWorld = DimManager.getWorld(args[0]);
+				World gotoWorld = Bukkit.getWorld(args[0]);
 				
 				if (DimManager.isInWorld(currentWorld.getName(), gotoWorld.getName()))
 				{

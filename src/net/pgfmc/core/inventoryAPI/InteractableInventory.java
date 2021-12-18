@@ -169,8 +169,8 @@ public abstract class InteractableInventory implements InventoryHolder {
 	public InteractableInventory(int size, String name) {
 		this.inv = Bukkit.createInventory(this, size, name);
 		this.size = inv.getSize();
-		System.out.println("new Interactable Inventory Created!");
-		System.out.println(String.valueOf(size));
+		// System.out.println("new Interactable Inventory Created!");
+		// System.out.println(String.valueOf(size));
 		buttons = new ArrayList<>(size);
 	}
 

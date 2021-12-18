@@ -101,10 +101,10 @@ public class Roles {
 		
 		public static Role getDominant(List<Role> list) {
 			
-			System.out.println(list);
+			// System.out.println(list);
 			
 			if (list == null || list.size() == 0) {
-				System.out.println("out 1");
+				// System.out.println("out 1");
 				return MEMBER;
 			}
 			

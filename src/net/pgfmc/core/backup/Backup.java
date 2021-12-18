@@ -13,7 +13,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.pgfmc.core.Main;
+import net.pgfmc.core.CoreMain;
 
 /**
  * Backup command
@@ -59,7 +59,7 @@ public class Backup implements CommandExecutor {
 		this.sender = sender;
 		backup.put("sender", sender.getName());
 		backup.put("uuid", uuid);
-		backup.put("season", Main.currentSeason);
+		backup.put("season", CoreMain.currentSeason);
 		backup.put("date", date);
 		backup.put("notes", notes);
 	}
@@ -79,7 +79,7 @@ public class Backup implements CommandExecutor {
 		
 		sender.sendMessage("§6Creating a backup will restart the server."
 				+ "\nType §f§o/backupconfirm §r§6to backup."
-				+ "\n\nPath: §f§o" + Main.backupDir + date + File.separator
+				+ "\n\nPath: §f§o" + CoreMain.backupDir + date + File.separator
 				+ "\n§r§6Notes: §f§o" + notes);
 		
 		// For confirming later

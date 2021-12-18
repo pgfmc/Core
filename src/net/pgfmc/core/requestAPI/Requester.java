@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import net.pgfmc.core.Main;
+import net.pgfmc.core.CoreMain;
 import net.pgfmc.core.playerdataAPI.PlayerData;
 
 /**
@@ -259,7 +259,7 @@ public abstract class Requester implements Listener {
 		
 		if (expiry != -1)
 		{
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.plugin, new Runnable() { @Override public void run()
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CoreMain.plugin, new Runnable() { @Override public void run()
 			{
 				r.expireNow(Reason.Timeout);
 			}}, 20 * expiry);

@@ -1,26 +1,15 @@
-name: PGF-Essentials
-version: 2.6.2
+name: PGF-Core
+version: 3.0.0
 api-version: 1.18
 authors: [bk, CrimsonDart]
 website: play.pgfmc.net
-main: net.pgfmc.pgfessentials.EssentialsMain
-description: Essentials for PGF
-depend: [Java_discord_API]
+main: net.pgfmc.core.CoreMain
+description: Core for PGF
 softdepend: [Teams]
 load: POSTWORLD
-prefix: PGF-Essentials
+prefix: PGF-Core
 
 commands:
-  echest:
-    description: Opens the player's ender chest
-    usage: /<command>
-    aliases: [enderchest, ech]
-    permission: pgf.cmd.donator.echest
-  back:
-    description: Sends the player to the last known location
-    usage: /<command>
-    aliases: [bk]
-    permission: pgf.cmd.back
   gmc:
     description: Change the player gamemode to creative
     usage: /<command> [player]
@@ -37,42 +26,6 @@ commands:
     description: Change the player gamemode to spectator
     usage: /<command> [player]
     permission: pgf.admin.gamemode.spectator
-  home:
-    description: Teleport to a home
-    usage: /<command> [home]
-    permission: pgf.cmd.home.home
-  sethome:
-    description: Set a home
-    usage: /<command> [home]
-    permission: pgf.cmd.home.set
-  delhome:
-    description: Delete a home
-    usage: /<command> [home]
-    permission: pgf.cmd.home.del
-  homes:
-    description: See a list of homes
-    usage: /<command>
-    permission: pgf.cmd.home.homes
-  tpa:
-    description: Send a teleport request
-    usage: /<command> [player]
-    permission: pgf.cmd.tp.tpa
-  tpaccept:
-    description: Accept a teleport request
-    usage: /<command> [player]
-    permission: pgf.cmd.tp.tpaccept
-  tpdeny:
-    description: Deny a teleport request
-    usage: /<command> [player]
-    permission: pgf.cmd.tp.tpdeny
-  tpcancel:
-    description: Cancel a teleport request
-    usage: /<command> [player]
-    permission: pgf.cmd.tp.tpcancel
-  afk:
-    description: Signals that a player is inactive
-    usage: /<command>
-    permission: pgf.cmd.afk
   goto:
     description: Teleport to a different world
     usage: /<command> [world]
@@ -102,19 +55,6 @@ commands:
     description: Block a player from all requests
     usage: /<command> [player]
     permission: pgf.cmd.block
-  commands:
-    aliases: [c]
-    description: Open up the help panel
-    usage: /<command>
-    permission: pgf.cmd.help
-  link:
-    usage: /<command>
-    description: sends the sender a code to link their discord account
-    permission: pgf.cmd.link
-  unlink:
-    usage: /<command>
-    description: unlinks the user's discord account.
-    permission: pgf.cmd.unlink
   backup:
     usage: /<command>
     description: Backup the server files then restarts
@@ -146,6 +86,10 @@ commands:
     description: Obtain a player skull
     permission: pgf.admin.skull
   debug:
-     usage: /<command>
-     description: Toggles debug mode for this player.
-     permission: pgf.admin.debug
+    usage: /<command>
+    description: Toggles debug mode for this player.
+    permission: pgf.admin.debug
+  pgf:
+    usage: /<command>
+    description: Master commands for PGF
+    permission: pgf.admin.pgf
