@@ -38,7 +38,6 @@ import net.pgfmc.core.cmd.donator.Nick;
 import net.pgfmc.core.configify.ReloadConfigify;
 import net.pgfmc.core.inventoryAPI.InventoryPressEvent;
 import net.pgfmc.core.permissions.Permissions;
-import net.pgfmc.core.permissions.Roles;
 import net.pgfmc.core.playerdataAPI.PlayerData;
 import net.pgfmc.core.playerdataAPI.PlayerDataManager;
 
@@ -118,7 +117,7 @@ public class CoreMain extends JavaPlugin implements Listener {
 		// loads PlayerData
 		
 		PlayerDataManager.setInit(x -> x.setData("AFK", false));
-		PlayerDataManager.setInit(x -> Roles.recalculateRoles(x));
+		
 		PlayerDataManager.setInit(pd -> {
 			
 			Map<String, Location> homes = new HashMap<>();
@@ -249,11 +248,11 @@ public class CoreMain extends JavaPlugin implements Listener {
 		}
 	}
 	
-	public boolean isSurvivalEnabled() {
+	public static boolean isSurvivalEnabled() {
 		return isSurvivalEnabled;
 	}
 	
-	public boolean isBotEnabled() {
+	public static boolean isBotEnabled() {
 		return isBotEnabled;
 	}
 	

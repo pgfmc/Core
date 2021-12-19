@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 import net.pgfmc.core.CoreMain;
 import net.pgfmc.core.Mixins;
 import net.pgfmc.core.cmd.donator.Nick;
-import net.pgfmc.core.permissions.Roles.Role;
+import net.pgfmc.core.permissions.Role;
 
 /**
  * stores dynamic, temporary and non-temporary data for each player.

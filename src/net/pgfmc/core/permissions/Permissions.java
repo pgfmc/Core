@@ -9,7 +9,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.PermissionAttachment;
 
 import net.pgfmc.core.CoreMain;
-import net.pgfmc.core.permissions.Roles.Role;
 import net.pgfmc.core.playerdataAPI.PlayerData;
 
 public class Permissions implements Listener {
@@ -188,14 +187,10 @@ public class Permissions implements Listener {
 		p.updateCommands();
 	}
 	
-	public static void recalcPerms(Player p) {
-		if (p != null) {
-			recalcPerms(PlayerData.getPlayerData(p));
-		}
-	}
-	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
-		recalcPerms(e.getPlayer());
+		if (e.getPlayer() != null) {
+			recalcPerms(PlayerData.getPlayerData(e.getPlayer()));
+		}
 	}
 }
