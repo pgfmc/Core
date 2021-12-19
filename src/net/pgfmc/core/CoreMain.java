@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.security.auth.login.LoginException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -18,7 +16,6 @@ import org.bukkit.event.server.ServerLoadEvent.LoadType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
-import net.pgfmc.bot.Discord;
 import net.pgfmc.core.backup.Backup;
 import net.pgfmc.core.backup.Backupconfirm;
 import net.pgfmc.core.backup.Restore;
@@ -96,14 +93,7 @@ public class CoreMain extends JavaPlugin implements Listener {
 		default: machine = Machine.MAIN; break;
 		}
 		
-		// Tries to initialize discord integration
-		try {
-			Discord.initialize();
-		} catch (LoginException e1) {
-			e1.printStackTrace();
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
+		
 		
 		// makes sure all files exist
 		Mixins.getFile(configPath);
@@ -255,14 +245,5 @@ public class CoreMain extends JavaPlugin implements Listener {
 	public static boolean isBotEnabled() {
 		return isBotEnabled;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
 
