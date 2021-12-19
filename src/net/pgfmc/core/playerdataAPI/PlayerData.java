@@ -21,7 +21,6 @@ import net.pgfmc.core.CoreMain;
 import net.pgfmc.core.Mixins;
 import net.pgfmc.core.cmd.donator.Nick;
 import net.pgfmc.core.permissions.Roles.Role;
-import net.pgfmc.survival.dim.SpawnProtection;
 
 /**
  * stores dynamic, temporary and non-temporary data for each player.
@@ -164,10 +163,7 @@ public class PlayerData extends AbstractPlayerData {
 	}
 	
 	
-	public void tempProtect(int ticks)
-	{
-		SpawnProtection.TEMP_PROTECT(getPlayer(), ticks);
-	}
+	
 	
 	
 	/**

@@ -59,6 +59,9 @@ public class CoreMain extends JavaPlugin implements Listener {
 	public static CoreMain plugin;
 	public static Scoreboard scoreboard;
 	
+	private static boolean isSurvivalEnabled;
+	private static boolean isBotEnabled;
+	
 	public enum Machine {
 		MAIN,
 		TEST,
@@ -77,6 +80,9 @@ public class CoreMain extends JavaPlugin implements Listener {
 	{ 
 		// defines all constants for the plugin
 		plugin = this;
+		
+		
+		
 		
 		pwd = CoreMain.plugin.getServer().getWorldContainer().getAbsolutePath();
 		configPath = CoreMain.plugin.getDataFolder() + File.separator + "config.yml";
@@ -201,7 +207,7 @@ public class CoreMain extends JavaPlugin implements Listener {
 		
 		getCommand("pgf").setExecutor(new ReloadConfigify());
 		
-		getServer().getPluginManager().registerEvents(new ChatEvents(), this);
+		
 		
 		
 		getServer().getPluginManager().registerEvents(new InventoryPressEvent(), this);
@@ -222,7 +228,6 @@ public class CoreMain extends JavaPlugin implements Listener {
 	
 	@Override
 	public void onDisable() {
-		
 		PlayerDataManager.saveQ();
 	}
 	
@@ -233,7 +238,8 @@ public class CoreMain extends JavaPlugin implements Listener {
 		if (e.getType() == LoadType.STARTUP) {
 			PlayerDataManager.InitializePD();
 		}
-
+		isSurvivalEnabled = Bukkit.getPluginManager().isPluginEnabled("PGF-Survival");
+		isBotEnabled = Bukkit.getPluginManager().isPluginEnabled("PGF-Bot");
 	}
 	
 	@EventHandler
@@ -242,5 +248,22 @@ public class CoreMain extends JavaPlugin implements Listener {
 			new PlayerData(e.getPlayer());
 		}
 	}
+	
+	public boolean isSurvivalEnabled() {
+		return isSurvivalEnabled;
+	}
+	
+	public boolean isBotEnabled() {
+		return isBotEnabled;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
