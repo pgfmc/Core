@@ -16,9 +16,6 @@ import org.bukkit.event.server.ServerLoadEvent.LoadType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
-import net.pgfmc.core.backup.Backup;
-import net.pgfmc.core.backup.Backupconfirm;
-import net.pgfmc.core.backup.Restore;
 import net.pgfmc.core.cmd.Blocked;
 import net.pgfmc.core.cmd.Goto;
 import net.pgfmc.core.cmd.admin.Skull;
@@ -153,11 +150,6 @@ public class CoreMain extends JavaPlugin implements Listener {
 		
 		
 		getCommand("block").setExecutor(new Blocked());
-
-		
-		getCommand("backup").setExecutor(new Backup());
-		getCommand("backupconfirm").setExecutor(new Backupconfirm());
-		getCommand("restore").setExecutor(new Restore());
 		
 		getCommand("nick").setExecutor(new Nick());
 		
