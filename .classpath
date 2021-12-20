@@ -7,8 +7,11 @@
 		</attributes>
 	</classpathentry>
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="E:/github/javaLib/spigot-api-1.18.1-R0.1-SNAPSHOT.jar"/>
 =======
+=======
+>>>>>>> parent of 83a2604 (ok)
 	<classpathentry kind="lib" path="E:/github/javaLib/spigot-api-1.18.1-R0.1-SNAPSHOT.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
