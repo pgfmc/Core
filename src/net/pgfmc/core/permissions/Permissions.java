@@ -43,7 +43,9 @@ public class Permissions implements Listener {
 			"bukkit.command.tps", 
 			"bukkit.command.list",
 			"pgf.dim.survival",
-			"ultimatechairs.use"
+			"ultimatechairs.use",
+			"pgf.cmd.warp.warp",
+			"pgf.cmd.warp.warps"
 	};
 	
 	public static final String[] donatorPerms = {
@@ -91,6 +93,8 @@ public class Permissions implements Listener {
 			"pgf.cmd.heal",
 			"pgf.admin.day",
 			"pgf.admin.pgf",
+			"pgf.cmd.warp.set",
+			"pgf.cmd.warp.del",
 			"bukkit.command.restart",
 			"bukkit.commands.timings",
 			"bukkit.command.reload",
