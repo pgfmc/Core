@@ -15,7 +15,6 @@ import org.bukkit.util.Vector;
 
 import net.pgfmc.core.DimManager;
 import net.pgfmc.core.playerdataAPI.PlayerData;
-import net.pgfmc.survival.cmd.Back;
 
 /**
  * Sends the player to a specific Multiverse World.
@@ -59,7 +58,7 @@ public class Goto implements CommandExecutor {
 		if (currentWorldName.contains("the_end")) { pd.saveToFile(currentWorldName.substring(0, currentWorldName.length() - 8) + ".uuid." + playerUUID, current); } // If teleporting from The End
 		if (!(currentWorldName.contains("the_end")) && !(currentWorldName.contains("nether"))) { pd.saveToFile(currentWorldName + ".uuid." + playerUUID, current); } // If teleporting from Overworld
 		
-		Back.logBackLocation(player, current);
+		// XXX Back.logBackLocation(player, current);
 		player.teleport(destination); // Teleports sender to the hub if no errors while saving
 		player.setVelocity(new Vector());
 		
