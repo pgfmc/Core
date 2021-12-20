@@ -1,8 +1,6 @@
 package net.pgfmc.core;
 
 import org.bukkit.Bukkit;
-
-import net.pgfmc.core.backup.Backup;
 /**
  * manages all the restart stuff.
  */
@@ -46,7 +44,8 @@ public class Restart {
             	}
             	if (timeLeft <= 0)
             	{
-            		new Backup().backup();
+            		// new Backup().backup();
+            		Bukkit.shutdown();
             		commit();
             	}
             	

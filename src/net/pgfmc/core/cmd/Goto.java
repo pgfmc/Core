@@ -15,7 +15,6 @@ import org.bukkit.util.Vector;
 
 import net.pgfmc.core.DimManager;
 import net.pgfmc.core.playerdataAPI.PlayerData;
-import net.pgfmc.survival.cmd.Back;
 
 /**
  * Sends the player to a specific Multiverse World.
@@ -23,6 +22,26 @@ import net.pgfmc.survival.cmd.Back;
  *
  */
 public class Goto implements CommandExecutor {
+	
+	/**
+	 * saves a player's last location.
+	 * @param p Player
+	 * @param loc The Player's last Location
+	 */
+	public static void logBackLocation(OfflinePlayer p, Location loc)
+	{
+		PlayerData.setData(p, "backLoc", loc);
+	}
+	
+	/**
+	 * Gets a player's last Location
+	 * @param p Player
+	 * @return A player's last Location, null if none
+	 */
+	public static Location getBackLocation(OfflinePlayer p)
+	{
+		return Optional.ofNullable((Location) PlayerData.getData(p, "backLoc")).orElse(null);
+	}
 	
 	/**
 	 * Loads a player's last location for a world
@@ -59,7 +78,7 @@ public class Goto implements CommandExecutor {
 		if (currentWorldName.contains("the_end")) { pd.saveToFile(currentWorldName.substring(0, currentWorldName.length() - 8) + ".uuid." + playerUUID, current); } // If teleporting from The End
 		if (!(currentWorldName.contains("the_end")) && !(currentWorldName.contains("nether"))) { pd.saveToFile(currentWorldName + ".uuid." + playerUUID, current); } // If teleporting from Overworld
 		
-		Back.logBackLocation(player, current);
+		logBackLocation(player, current);
 		player.teleport(destination); // Teleports sender to the hub if no errors while saving
 		player.setVelocity(new Vector());
 		

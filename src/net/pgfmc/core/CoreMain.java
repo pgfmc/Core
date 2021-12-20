@@ -16,21 +16,9 @@ import org.bukkit.event.server.ServerLoadEvent.LoadType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
-import net.pgfmc.core.backup.Backup;
-import net.pgfmc.core.backup.Backupconfirm;
-import net.pgfmc.core.backup.Restore;
 import net.pgfmc.core.cmd.Blocked;
 import net.pgfmc.core.cmd.Goto;
-import net.pgfmc.core.cmd.admin.Day;
-import net.pgfmc.core.cmd.admin.Debug;
-import net.pgfmc.core.cmd.admin.DimToggle;
-import net.pgfmc.core.cmd.admin.Fly;
-import net.pgfmc.core.cmd.admin.Gamemode;
-import net.pgfmc.core.cmd.admin.God;
-import net.pgfmc.core.cmd.admin.Heal;
 import net.pgfmc.core.cmd.admin.Skull;
-import net.pgfmc.core.cmd.admin.Sudo;
-import net.pgfmc.core.cmd.admin.Vanish;
 import net.pgfmc.core.cmd.donator.Nick;
 import net.pgfmc.core.configify.ReloadConfigify;
 import net.pgfmc.core.inventoryAPI.InventoryPressEvent;
@@ -77,15 +65,16 @@ public class CoreMain extends JavaPlugin implements Listener {
 		// defines all constants for the plugin
 		plugin = this;
 		
-		
-		
-		
 		pwd = CoreMain.plugin.getServer().getWorldContainer().getAbsolutePath();
+		
 		configPath = CoreMain.plugin.getDataFolder() + File.separator + "config.yml";
+		
 		PlayerDataPath = CoreMain.plugin.getDataFolder() + File.separator + "playerData";
+		
 		backupDir =  homeDir + ".uploads" + File.separator
 				+ "bk" + File.separator + "Survival" 
 				+ File.separator + currentSeason + File.separator;
+		
 		
 		switch (this.getServer().getPort()) {
 		case 25566: machine = Machine.TEST; break;
@@ -130,6 +119,7 @@ public class CoreMain extends JavaPlugin implements Listener {
 			
 			pd.setData("homes", homes);
 		});
+		
 		PlayerDataManager.setInit(pd -> {
 			
 			FileConfiguration db = pd.loadFile();
@@ -148,6 +138,9 @@ public class CoreMain extends JavaPlugin implements Listener {
 			}
 		});
 		
+		
+		
+		
 		DimManager.updateConfigForWorldPermissionAccess();
 		
 		
@@ -156,39 +149,11 @@ public class CoreMain extends JavaPlugin implements Listener {
 		//if it doesnt exist, it creates a new team with the same name.
 		
 		getCommand("goto").setExecutor(new Goto());
-		
 		// Makes it so you can /<world> if you want instead of /goto ((	PROBABLY DOESN'T WORK ))
 		// getCommand("goto").setAliases(DimManager.getAllWorldNames()); // /hub, /creative, /<world>
 		
 		
-		
-		
-		getCommand("gmc").setExecutor(new Gamemode());
-		getCommand("gms").setExecutor(new Gamemode());
-		getCommand("gma").setExecutor(new Gamemode());
-		getCommand("gmsp").setExecutor(new Gamemode());
-		
-		getCommand("vanish").setExecutor(new Vanish());
-
-		getCommand("fly").setExecutor(new Fly());
-		getCommand("god").setExecutor(new God());
-		getCommand("sudo").setExecutor(new Sudo());
-		getCommand("heal").setExecutor(new Heal());
-		
 		getCommand("block").setExecutor(new Blocked());
-		
-		
-		getCommand("debug").setExecutor(new Debug());
-		
-		
-		
-		getCommand("backup").setExecutor(new Backup());
-		getCommand("backupconfirm").setExecutor(new Backupconfirm());
-		getCommand("restore").setExecutor(new Restore());
-		
-		getCommand("day").setExecutor(new Day());
-		
-		getCommand("dimtoggle").setExecutor(new DimToggle());
 		
 		getCommand("nick").setExecutor(new Nick());
 		
@@ -196,13 +161,8 @@ public class CoreMain extends JavaPlugin implements Listener {
 		
 		getCommand("pgf").setExecutor(new ReloadConfigify());
 		
-		
-		
-		
 		getServer().getPluginManager().registerEvents(new InventoryPressEvent(), this);
-		getServer().getPluginManager().registerEvents(new Fly(), this);
-		getServer().getPluginManager().registerEvents(new God(), this);
-		getServer().getPluginManager().registerEvents(new Vanish(), this);
+		
 		getServer().getPluginManager().registerEvents(new Permissions(), this);
 		
 		getServer().getPluginManager().registerEvents(this, this);
