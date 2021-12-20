@@ -40,7 +40,7 @@ public class Restart {
             			Bukkit.broadcastMessage("§d10 seconds remain until server restart.");
             			break;
             		case 3: // 3 seconds
-            			Bukkit.broadcastMessage("§d§lServer restarting, be back soon!");
+            			Bukkit.broadcastMessage("§d§lRestarting, be back soon!");
             			break;
                 	default: break;
             	}

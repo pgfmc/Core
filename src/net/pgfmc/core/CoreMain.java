@@ -18,7 +18,9 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import net.pgfmc.core.cmd.Blocked;
 import net.pgfmc.core.cmd.Goto;
+import net.pgfmc.core.cmd.admin.Broadcast;
 import net.pgfmc.core.cmd.admin.Skull;
+import net.pgfmc.core.cmd.admin.Tagging;
 import net.pgfmc.core.cmd.donator.Nick;
 import net.pgfmc.core.configify.ReloadConfigify;
 import net.pgfmc.core.inventoryAPI.InventoryPressEvent;
@@ -156,6 +158,9 @@ public class CoreMain extends JavaPlugin implements Listener {
 		getCommand("skull").setExecutor(new Skull());
 		
 		getCommand("pgf").setExecutor(new ReloadConfigify());
+		getCommand("tag").setExecutor(new Tagging());
+		
+		getCommand("broadcast").setExecutor(new Broadcast());
 		
 		
 		
