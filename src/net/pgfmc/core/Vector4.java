@@ -128,4 +128,8 @@ public class Vector4 {
 		}
 		return false;
 	}
+	
+	public Vector4 shift(int x, int y, int z) {
+		return new Vector4(this.x + x, this.y + y, this.z + z, w);
+	}
 }
