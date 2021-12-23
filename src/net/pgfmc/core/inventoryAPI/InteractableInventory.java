@@ -42,7 +42,7 @@ public abstract class InteractableInventory implements InventoryHolder {
 	 *
 	 */
 	@FunctionalInterface
-	protected interface Butto {
+	public interface Butto {
 		
 		public void press(Player p, InventoryClickEvent e);
 		
@@ -50,8 +50,6 @@ public abstract class InteractableInventory implements InventoryHolder {
 		 * The default button function used in place of null.
 		 */
 		public Butto defaultButto = (x, e) -> {};
-		
-		
 	}
 	
 	/**
