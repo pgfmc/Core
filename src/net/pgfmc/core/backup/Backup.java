@@ -64,7 +64,14 @@ public class Backup implements CommandExecutor {
 		backup.put("notes", notes);
 	}
 	
-	public Backup() {}
+	public Backup()
+	{
+		backup.put("sender", sender.getName());
+		backup.put("uuid", uuid);
+		backup.put("season", CoreMain.currentSeason);
+		backup.put("date", date);
+		backup.put("notes", notes);
+	}
 	
 	/**
 	 * Backup command, extra arguments count as part of the notes, arguments optional

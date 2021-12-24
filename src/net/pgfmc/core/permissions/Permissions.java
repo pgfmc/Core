@@ -51,6 +51,7 @@ public class Permissions implements Listener {
 	public static final String[] donatorPerms = {
 			"pgf.cmd.donator.echest",
 			"pgf.cmd.donator.nick",
+			"pgf.cmd.home.donator",
 			"ultimatechairs.sit"
 	};
 	

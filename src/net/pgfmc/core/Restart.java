@@ -9,7 +9,7 @@ import net.pgfmc.core.backup.Backup;
 public class Restart {
 	
 	public int taskID;
-	public int time;
+	public int time = 60 * 60 * 24 - 20;
 	
 	
 	

@@ -134,7 +134,7 @@ public class CoreMain extends JavaPlugin implements Listener {
 			
 			if (config != null)
 			{
-				pd.setData("nick", (String) config.getKeys(false).toArray()[0]);
+				config.getKeys(false).forEach(nick -> pd.setData("nick", nick));
 			}
 		});
 		

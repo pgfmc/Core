@@ -44,7 +44,7 @@ public class Backups {
 			public void run() {				
 				try {
 					String sourceDir = CoreMain.pwd;
-					String destDir = CoreMain.backupDir + b.backup.get("date") + File.separator;
+					String destDir = "C:\\Users\\bk\\Desktop\\servers\\Backup\\" + b.backup.get("date") + File.separator;//CoreMain.backupDir + b.backup.get("date") + File.separator; XXX
 					File source = new File(sourceDir);
 					File dest = new File(destDir);
 					dest.mkdirs();
@@ -61,10 +61,15 @@ public class Backups {
 					    while (i.hasNext()) {
 					        Path sourceTemp = i.next();
 					        Path destTemp = destPath.resolve(sourcePath.relativize(sourceTemp));
-					        if (Files.isDirectory(sourceTemp)) {
-					            Files.createDirectories(destTemp);
-					        } else {
-					            Files.copy(sourceTemp, destTemp);
+					        try {
+						        if (Files.isDirectory(sourceTemp)) {
+						            Files.createDirectories(destTemp);
+						        } else {
+						            Files.copy(sourceTemp, destTemp);
+						        }
+					        } catch (IOException e)
+					        {
+					        	e.printStackTrace();
 					        }
 					    }
 					}
