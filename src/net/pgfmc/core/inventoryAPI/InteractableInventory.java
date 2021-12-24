@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**
- * abstract class that supports all inventory functions, as well as some extra convenience, such as  
+ * Abstract class that supports all inventory functions, as well as some extra convenience, such as  
  * @author CrimsonDart
  *
  */
@@ -26,15 +26,44 @@ public abstract class InteractableInventory implements InventoryHolder {
 	 */
 	protected ArrayList<Button> buttons;
 	
-	/*
-	 * The amount of slots in the inventory.
+	/**
+	 * The Size of the Inventory. (BIG (56 slots) or SMALL (27 slots))
 	 */
-	protected int size;
+	SizeData sizeD;
 	
 	/**
 	 * The inventory itself.
 	 */
 	protected Inventory inv;
+	
+	/**
+	 * Enum to store data for chest sizes.
+	 * holds data for chest size, and the amount of entries available for each page.
+	 * @author CrimsonDart
+	 *
+	 */
+	public enum SizeData {
+		BIG(56, 36.0f),
+		SMALL(27, 21.0f),
+		HOPPER(5, 0.0f),
+		DROPPER(9, .0f);
+		
+		public int size;
+		public float pageSize;
+		
+		SizeData(int size, float pageSize) {
+			this.size = size;
+			this.pageSize = pageSize;
+		}
+		
+		int getSize() {
+			return size;
+		}
+		
+		float getPageSize() {
+			return pageSize;
+		}
+	}
 	
 	/**
 	 * interface to add functionality to the buttons.
@@ -49,7 +78,10 @@ public abstract class InteractableInventory implements InventoryHolder {
 		/**
 		 * The default button function used in place of null.
 		 */
-		public Butto defaultButto = (x, e) -> {};
+		public final Butto defaultButto = (x, e) -> {};
+		public final Butto unProtectedButto = (x, e) -> {
+			e.setCancelled(false);
+		};
 	}
 	
 	/**
@@ -64,7 +96,6 @@ public abstract class InteractableInventory implements InventoryHolder {
 		
 		private Butto function;
 		private ItemStack item;
-		private int position;
 		
 		// constructor
 		
@@ -73,14 +104,13 @@ public abstract class InteractableInventory implements InventoryHolder {
 		 * Creates a new Button for an InteractableInventory. includes support for custom names, lore, and Full button clicking action!
 		 * 
 		 * @param mat The material of the item.
-		 * @param pos The Item's slot number in the InteractableInventory
 		 * @param name The name of the item. (set to null to not change the name)
 		 * @param lore The lore of the item.  Syntax:    "line1\nline2\nline3..... and so on"
 		 * @param function The lambda function that is ran when the item is clicked. (bk, this is a lambda tutorial for you)
 		 * 		where the "Butto function" parameter goes, type:      (x) -> { /* code here /* }      and thats it    also x is the player who clicked the item
 		 * 		You can also set function to null to just do nothing.
 		 */
-		protected Button(Material mat, int pos, String name, String lore, Butto function) {
+		public Button(Material mat, String name, String lore, Butto function) {
 			
 			if (function == null) {
 				this.function = Butto.defaultButto;
@@ -89,7 +119,7 @@ public abstract class InteractableInventory implements InventoryHolder {
 			}
 			
 			this.item = new ItemStack(mat);
-			position = pos;
+			//position = pos;
 			
 			ItemMeta imeta = this.item.getItemMeta();
 			
@@ -108,12 +138,7 @@ public abstract class InteractableInventory implements InventoryHolder {
 			}
 			item.setItemMeta(imeta);
 		}
-		
-		protected Button(int pos) {
-			this.function = Butto.defaultButto;
-			this.item = new ItemStack(Material.AIR);
-			position = pos;
-		}
+
 		
 		// methods
 		
@@ -134,21 +159,6 @@ public abstract class InteractableInventory implements InventoryHolder {
 		}
 		
 		/**
-		 * Returns the slot the Button is set to.
-		 * @return the slot the Button is set to.
-		 */
-		public int getSlot() {
-			return position;
-		}
-		
-		/**
-		 * Sets the Button's slot to the input's.
-		 */
-		public void setSlot(int slot) {
-			position = slot;
-		}
-		
-		/**
 		 * Convenience Method. 
 		 * Returns the name of the ItemStack.
 		 * @return
@@ -164,12 +174,11 @@ public abstract class InteractableInventory implements InventoryHolder {
 	 * automatically creates an inventory of the size requested.
 	 * @param size The size of the inventory needed.
 	 */
-	public InteractableInventory(int size, String name) {
-		this.inv = Bukkit.createInventory(this, size, name);
-		this.size = inv.getSize();
+	public InteractableInventory(SizeData size, String name) {
+		this.inv = Bukkit.createInventory(this, size.getSize(), name);
 		// System.out.println("new Interactable Inventory Created!");
 		// System.out.println(String.valueOf(size));
-		buttons = new ArrayList<>(size);
+		buttons = new ArrayList<>(size.getSize());
 	}
 
 	// methods
@@ -191,10 +200,10 @@ public abstract class InteractableInventory implements InventoryHolder {
 	 * @return 
 	 */
 	public Button createButton(Material mat, int pos, String name, String lore, Butto function) {
-		Button button = new Button(mat, pos, name, lore, function);
+		Button button = new Button(mat, name, lore, function);
 		
-		inv.setItem(button.getSlot(), button.getItem());
-		this.buttons.add(button);
+		inv.setItem(pos, button.getItem());
+		this.buttons.set(pos, button);
 		return button;
 	}
 	
@@ -209,9 +218,9 @@ public abstract class InteractableInventory implements InventoryHolder {
 	 * @param lore The lore of the item.  Syntax:    "line1\nline2\nline3..... and so on"
 	 */
 	public Button createButton(Material mat, int pos, String name, String lore) {
-		Button button = new Button(mat, pos, name, lore, null);
+		Button button = new Button(mat, name, lore, null);
 		
-		inv.setItem(button.getSlot(), button.getItem());
+		inv.setItem(pos, button.getItem());
 		this.buttons.add(button);
 		return button;
 	}
@@ -227,9 +236,9 @@ public abstract class InteractableInventory implements InventoryHolder {
 	 * @return 
 	 */
 	public Button createButton(Material mat, int pos, String name) {
-		Button button = new Button(mat, pos, name, null, null);
+		Button button = new Button(mat, name, null, null);
 		
-		inv.setItem(button.getSlot(), button.getItem());
+		inv.setItem(pos, button.getItem());
 		this.buttons.add(button);
 		return button;
 	}
@@ -244,9 +253,9 @@ public abstract class InteractableInventory implements InventoryHolder {
 	 * @return 
 	 */
 	public Button createButton(Material mat, int pos) {
-		Button button = new Button(mat, pos, null, null, null);
+		Button button = new Button(mat, null, null, null);
 
-		inv.setItem(button.getSlot(), button.getItem());
+		inv.setItem(pos, button.getItem());
 		this.buttons.add(button);
 		return button;
 	}
@@ -264,9 +273,9 @@ public abstract class InteractableInventory implements InventoryHolder {
 	 * @return 
 	 */
 	public Button createButton(Material mat, int pos, Butto function) {
-		Button button = new Button(mat, pos, null, null, function);
+		Button button = new Button(mat, null, null, function);
 		
-		inv.setItem(button.getSlot(), button.getItem());
+		inv.setItem(pos, button.getItem());
 		this.buttons.add(button);
 		return button;
 	}
@@ -285,9 +294,9 @@ public abstract class InteractableInventory implements InventoryHolder {
 	 * @return 
 	 */
 	public Button createButton(Material mat, int pos, String name, Butto function) {
-		Button button = new Button(mat, pos, name, null, function);
+		Button button = new Button(mat, name, null, function);
 		
-		inv.setItem(button.getSlot(), button.getItem());
+		inv.setItem(pos, button.getItem());
 		this.buttons.add(button);
 		return button;
 	}
@@ -302,14 +311,11 @@ public abstract class InteractableInventory implements InventoryHolder {
 		
 		// System.out.println("Slot " + String.valueOf(slot) + " Pressed!");
 		
-		if (slot + 1 > size) {return;};
+		if (slot + 1 > inv.getSize()) {return;};
 		
-		for (Button button : buttons) {
-			if (button.getSlot() == slot) {
-				button.run(p, e);
-				return;
-			}
-		}
+		Button b = 	buttons.get(slot);
+		if (b!= null) b.run(p, e);
+		return;
 	}
 	
 	/**
@@ -333,11 +339,7 @@ public abstract class InteractableInventory implements InventoryHolder {
 	 * @return Returns the button at the input slot, and null if there is no button at that slot.
 	 */
 	public Button getButton(int index) {
-		for (Button button : buttons) {
-			if (button.getSlot() == index) {
-				return button;
-			}
-		}
+		buttons.get(index);
 		return null;
 	}
 }

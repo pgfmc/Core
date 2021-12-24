@@ -1,23 +1,17 @@
 package net.pgfmc.core.inventoryAPI;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
-public abstract class PagedInventory<T> extends InteractableInventory {
+public abstract class PagedInventory extends InteractableInventory {
 	
 	/**
 	 * The List of entries, in the form of Button(s).
 	 */
 	protected List<Button> entries;
-	
-	/**
-	 * The Size of the Inventory. (BIG (56 slots) or SMALL (27 slots))
-	 */
-	SizeData sizeD;
 	
 	/*
 	 * The Button that is in the top left corner in SMALL inventories, or in the center in BIG ones. Usually used as a back button.
@@ -35,98 +29,19 @@ public abstract class PagedInventory<T> extends InteractableInventory {
 	int pages;
 	
 	/**
-	 * Enum to store data for chest sizes.
-	 * holds data for chest size, and the amount of entries available for each page.
-	 * @author CrimsonDart
-	 *
-	 */
-	public enum SizeData {
-		BIG(56, 36.0f),
-		SMALL(27, 21.0f);
-		
-		public int size;
-		public float pageSize;
-		
-		SizeData(int size, float pageSize) {
-			this.size = size;
-			this.pageSize = pageSize;
-		}
-		
-		int getSize() {
-			return size;
-		}
-		
-		float getPageSize() {
-			return pageSize;
-		}
-	}
-	
-	/**
-	 * 
-	 * @param mat
-	 * @param name
-	 * @param lore
-	 * @param function
-	 * @return
-	 */
-	public static Button createButton(Material mat, String name, String lore, Butto function) {
-		return new Button(mat, 0, name, lore, function);
-	}
-	
-	public interface ItemController<T> {
-		
-		Button makeButton(T entry);
-	}
-	
-	/**
 	 * Constructor for PagedInventory. The inventory can be in two sizes: 27 or 56 (single or double chest). 
+	 * The method {@code setEntries()} is the method used to load entries.
 	 * @param size The size of the inventory. can only be 27 or 56.
 	 * @param name Name displayed at the top of the inventory's interface.
-	 * @param entries The list of data that will fill the pages. 
 	 * @param itemController The function that is ran per entry in "entries"; itemController must return a button Object, with the entry itself as the input.
-	 * @param mat The material that all entries will be set to.
 	 */
-	public PagedInventory(SizeData size, String name, Collection<T> entries, ItemController<T> itemController) {
-		super(size.getSize(), name);
+	public PagedInventory(SizeData size, String name, List<Button> entries) {
+		super(size, name);
 		
-		this.sizeD = size;
-		
-		this.entries = entries.stream()
-		.map((t) -> {
-			return itemController.makeButton(t);
-		})
-		.sorted((x1, x2) -> {
-			
-			String n1 = x1.getName();
-			String n2 = x2.getName();
-			
-			if (n1.length() > n2.length()) {
-				
-				for (int integer = 0; integer < n2.length(); integer++) {
-					if (n1.charAt(integer) == n2.charAt(integer)) {
-						continue;
-					} else {
-						return Character.compare(n1.charAt(integer), n2.charAt(integer));
-					}
-				}
-			} else {
-				for (int integer = 0; integer < n1.length(); integer++) {
-					if (n1.charAt(integer) == n2.charAt(integer)) {
-						continue;
-					} else {
-						return Character.compare(n1.charAt(integer), n2.charAt(integer));
-					}
-				}
-			}
-			return 0;
-		})
-		.collect(Collectors.toList());
-		
+		this.entries = entries;
 		this.pages = (int) Math.ceil(entries.size() / size.getPageSize());
 		
 		setPage(page);
-		// System.out.println(String.valueOf(pages));
-		// System.out.println(String.valueOf(entries.size()));
 	}
 	
 	/**
@@ -161,7 +76,7 @@ public abstract class PagedInventory<T> extends InteractableInventory {
 	 */
 	protected void setPage(int newPage) {
 		
-		buttons = new ArrayList<>(size);
+		buttons = new ArrayList<>(inv.getSize());
 		inv.clear();
 		
 		if (newPage > pages || newPage < 1) {
@@ -200,14 +115,13 @@ public abstract class PagedInventory<T> extends InteractableInventory {
 			for (int i = 0; i < 36; i++) {
 				if (i >= entries.size()) { // if "i" gets bigger than the entries size.
 					
-					Button button = new Button(i);
-					this.buttons.add(button);
-					inv.setItem(i, button.getItem());
+					this.buttons.set(i, null);
+					inv.setItem(i, new ItemStack(Material.AIR));
 					
 				} else {
 					
 					Button button = entries.get(i + (page - 1) * 36);
-					this.buttons.add(button);
+					this.buttons.set(i, button);
 					inv.setItem(i, button.getItem());
 				}
 			}
@@ -215,14 +129,12 @@ public abstract class PagedInventory<T> extends InteractableInventory {
 			for (int i = 0; i < 21; i++) {
 				if (i + (page - 1) * 21 >= entries.size()) { // if "i" gets bigger than the entries size.
 					
-					Button button = new Button(entryToSlot(i));
-					this.buttons.add(button);
-					inv.setItem(entryToSlot(i), button.getItem());
+					
+					inv.setItem(entryToSlot(i), new ItemStack(Material.AIR));
 				} else {
 					Button button = entries.get(i + (page - 1) * 21);
 					
-					button.setSlot(entryToSlot(i));
-					this.buttons.add(button);
+					this.buttons.set(i, button);
 					inv.setItem(entryToSlot(i), button.getItem());
 				}
 			}
@@ -243,7 +155,7 @@ public abstract class PagedInventory<T> extends InteractableInventory {
 	 * @param function The code that is to be ran when the button is pressed, in the form of a lambda function.
 	 */
 	protected void setPersistentButton(Material mat, String name, String lore, Butto function) {
-		persistentButton = new Button(mat, 0, name, lore, function);
+		persistentButton = new Button(mat, name, lore, function);
 	}
 	
 	/**
@@ -251,7 +163,7 @@ public abstract class PagedInventory<T> extends InteractableInventory {
 	 * @param ae
 	 */
 	public void setBackButton(InteractableInventory ae) {
-		persistentButton = new Button(Material.FEATHER, 0, "Back", null, (x, e) -> {
+		persistentButton = new Button(Material.FEATHER, "Back", null, (x, e) -> {
 			x.openInventory(ae.getInventory());
 		});
 		buttons.add(persistentButton);
