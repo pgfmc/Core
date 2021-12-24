@@ -62,7 +62,7 @@ public class Permissions implements Listener {
 			"pgf.admin.gamemode.creative", 
 			"pgf.admin.gamemode.survival", 
 			"pgf.admin.gamemode.adventure", 
-			"pgf.admi.gamemode.spectator", 
+			"pgf.admin.gamemode.spectator", 
 			"bukkit.command.plugins", 
 			"bukkit.command.give",
 			"bukkit.command.kick",
@@ -140,7 +140,7 @@ public class Permissions implements Listener {
 			
 		PermissionAttachment permatch = p.addAttachment(CoreMain.plugin);
 		
-		if (r != null) {
+		if (r != null && !p.isOp()) {
 			
 			for (String s : defaultPerms) {
 				permatch.setPermission(s, true);
@@ -165,7 +165,7 @@ public class Permissions implements Listener {
 			for (String s : adminPerms) {
 				permatch.setPermission(s, r.contains(Role.ADMIN));
 			}
-		} else {
+		} else if (r == null && !p.isOp()) {
 			for (String s : defaultPerms) {
 				permatch.setPermission(s, true);
 			}
@@ -188,6 +188,31 @@ public class Permissions implements Listener {
 			
 			for (String s : adminPerms) {
 				permatch.setPermission(s, false);
+			}
+		} else if (p.isOp())
+		{
+			for (String s : defaultPerms) {
+				permatch.setPermission(s, true);
+			}
+			
+			for (String s : disabledPerms) {
+				permatch.setPermission(s, true);
+			}
+			
+			for (String s : veteranPerms) {
+				permatch.setPermission(s, true);
+			}
+			
+			for (String s : modPerms) {
+				permatch.setPermission(s, true);
+			}
+			
+			for (String s : devPerms) {
+				permatch.setPermission(s, true);
+			}
+			
+			for (String s : adminPerms) {
+				permatch.setPermission(s, true);
 			}
 		}
 		p.recalculatePermissions();
