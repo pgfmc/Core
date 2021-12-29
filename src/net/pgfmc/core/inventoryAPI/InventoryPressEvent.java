@@ -11,14 +11,14 @@ public class InventoryPressEvent implements Listener {
 	
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
-		if (e.getClickedInventory() != null && e.getClickedInventory().getHolder() instanceof InteractableInventory && e.getWhoClicked() instanceof Player) {
-			((InteractableInventory) e.getClickedInventory().getHolder()).press(e.getSlot(), (Player) e.getWhoClicked(), e);
+		if (e.getClickedInventory() != null && e.getClickedInventory().getHolder() instanceof BaseInventory && e.getWhoClicked() instanceof Player) {
 			e.setCancelled(true);
+			((BaseInventory) e.getClickedInventory().getHolder()).press(e.getSlot(), e);
 		}
 	}
 	
 	public void onslideEvent(InventoryDragEvent e) {
-		if (e.getInventory().getHolder() instanceof InteractableInventory) {
+		if (e.getInventory().getHolder() instanceof BaseInventory) {
 			e.setCancelled(true);
 			return;
 		}

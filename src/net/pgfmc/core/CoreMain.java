@@ -164,11 +164,10 @@ public class CoreMain extends JavaPlugin implements Listener {
 		
 		
 		
+		getServer().getPluginManager().registerEvents(this, this);
 		
 		getServer().getPluginManager().registerEvents(new InventoryPressEvent(), this);
 		getServer().getPluginManager().registerEvents(new Permissions(), this);
-		
-		getServer().getPluginManager().registerEvents(this, this);
 		getServer().getPluginManager().registerEvents(new PlayerDataManager(), this);
 		
 		

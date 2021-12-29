@@ -1,12 +1,11 @@
 package net.pgfmc.core.inventoryAPI;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class PagedInventory extends InteractableInventory {
+public abstract class PagedInventory extends BaseInventory {
 	
 	/**
 	 * The List of entries, in the form of Button(s).
@@ -76,7 +75,7 @@ public abstract class PagedInventory extends InteractableInventory {
 	 */
 	protected void setPage(int newPage) {
 		
-		buttons = new ArrayList<>(inv.getSize());
+		buttons = new Button[sizeD.getSize()];
 		inv.clear();
 		
 		if (newPage > pages || newPage < 1) {
@@ -88,25 +87,26 @@ public abstract class PagedInventory extends InteractableInventory {
 		// Places the next and previous page buttons in their respective spots in the inventory.
 		if (page > 1) {
 			if (sizeD == SizeData.BIG) {
-				createButton(Material.IRON_HOE, 48, "Previous Page", (x, e) -> {
+				setButton(48, new Button(Material.IRON_HOE, (x, e) -> {
 					flipPage(-1);
-				});
+				}, "Previous Page"));
+				
 			} else {
-				createButton(Material.IRON_HOE, 9, "Previous Page", (x, e) -> {
+				setButton(9, new Button(Material.IRON_HOE, (x, e) -> {
 					flipPage(-1);
-				});
+				}, "Previous Page"));
 			}
 		}
 		
 		if (page < pages) {
 			if (sizeD == SizeData.BIG) {
-				createButton(Material.ARROW, 50, "Next Page", (x, e) -> {
+				setButton(50, new Button(Material.ARROW, (x, e) -> {
 					flipPage(+1);
-				});
+				}, "Next Page"));
 			} else {
-				createButton(Material.ARROW, 18, "Next Page", (x, e) -> {
+				setButton(18 , new Button(Material.ARROW, (x, e) -> {
 					flipPage(+1);
-				});
+				}, "Next Page"));
 			}
 		}
 		
@@ -115,13 +115,14 @@ public abstract class PagedInventory extends InteractableInventory {
 			for (int i = 0; i < 36; i++) {
 				if (i >= entries.size()) { // if "i" gets bigger than the entries size.
 					
-					this.buttons.set(i, null);
+					buttons[i] = null;
 					inv.setItem(i, new ItemStack(Material.AIR));
 					
 				} else {
 					
 					Button button = entries.get(i + (page - 1) * 36);
-					this.buttons.set(i, button);
+					
+					buttons[i] = button;
 					inv.setItem(i, button.getItem());
 				}
 			}
@@ -134,7 +135,7 @@ public abstract class PagedInventory extends InteractableInventory {
 				} else {
 					Button button = entries.get(i + (page - 1) * 21);
 					
-					this.buttons.set(i, button);
+					buttons[i] = button;
 					inv.setItem(entryToSlot(i), button.getItem());
 				}
 			}
@@ -142,7 +143,8 @@ public abstract class PagedInventory extends InteractableInventory {
 		
 		// re-sets the button in the top left
 		if (persistentButton != null) {
-			buttons.add(persistentButton);
+			
+			buttons[0] = persistentButton;
 			inv.setItem(0, persistentButton.getItem());
 		}
 	}
@@ -154,19 +156,19 @@ public abstract class PagedInventory extends InteractableInventory {
 	 * @param lore The lore to be added to the item.
 	 * @param function The code that is to be ran when the button is pressed, in the form of a lambda function.
 	 */
-	protected void setPersistentButton(Material mat, String name, String lore, Butto function) {
-		persistentButton = new Button(mat, name, lore, function);
+	protected void setPersistentButton(Button b) {
+		persistentButton = b;
 	}
 	
 	/**
 	 * Sets the persistent button to 
 	 * @param ae
 	 */
-	public void setBackButton(InteractableInventory ae) {
-		persistentButton = new Button(Material.FEATHER, "Back", null, (x, e) -> {
-			x.openInventory(ae.getInventory());
-		});
-		buttons.add(persistentButton);
+	public void setBackButton(BaseInventory ae) {
+		persistentButton = new Button(Material.FEATHER, (e, i) -> {
+			e.getWhoClicked().openInventory(ae.getInventory());
+		}, "back");
+		buttons[0] = persistentButton;
 		inv.setItem(0, persistentButton.getItem());
 	}
 	

@@ -15,7 +15,7 @@ import net.pgfmc.core.CoreMain;
 
 public class PlayerDataManager implements Listener {
 	
-	private static List<Consumer<?>> postLoad = new ArrayList<>();
+	private static List<Consumer<Void>> postLoad = new ArrayList<>();
 	protected static List<Consumer<PlayerData>> pdInit = new ArrayList<>();
 	
 	/**
@@ -33,7 +33,7 @@ public class PlayerDataManager implements Listener {
 	 * Should only be used in JavaPlugin.onEnable().
 	 * @param consoom The function to be ran.
 	 */
-	public static void setPostLoad(Consumer<?> consoom) {
+	public static void setPostLoad(Consumer<Void> consoom) {
 		postLoad.add(consoom);
 		System.out.println("Post PD function Init!");
 	}
