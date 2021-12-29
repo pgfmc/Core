@@ -342,4 +342,8 @@ public abstract class InteractableInventory implements InventoryHolder {
 		buttons.get(index);
 		return null;
 	}
+	
+	public void removeButton(int index) {
+		buttons.set(index, null);
+	}
 }

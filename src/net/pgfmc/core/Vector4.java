@@ -1,5 +1,7 @@
 package net.pgfmc.core;
 
+import java.io.Serializable;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -10,7 +12,9 @@ import org.bukkit.block.Block;
  * @author CrimsonDart
  *
  */
-public class Vector4 {
+public class Vector4 implements Cloneable, Serializable {
+	
+	private static final long serialVersionUID = 1969343256789187030L;
 	
 	private int w;
 	private int x;
@@ -129,7 +133,7 @@ public class Vector4 {
 		return false;
 	}
 	
-	public Vector4 shift(int x, int y, int z) {
+	public Vector4 add(int x, int y, int z) {
 		return new Vector4(this.x + x, this.y + y, this.z + z, w);
 	}
 }
