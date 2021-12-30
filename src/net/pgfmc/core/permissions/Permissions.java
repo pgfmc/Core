@@ -52,6 +52,7 @@ public class Permissions implements Listener {
 			"pgf.cmd.donator.echest",
 			"pgf.cmd.donator.nick",
 			"pgf.cmd.home.donator",
+			"pgf.cmd.donator.craft",
 			"ultimatechairs.sit"
 	};
 	

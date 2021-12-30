@@ -50,7 +50,7 @@ public class PlayerData extends AbstractPlayerData {
 		PlayerData pd = getPlayerData(p);
 		if (pd == null) {
 			
-
+			
 			for (Consumer<PlayerData> consoomer : PlayerDataManager.pdInit) {
 				
 				consoomer.accept(this);

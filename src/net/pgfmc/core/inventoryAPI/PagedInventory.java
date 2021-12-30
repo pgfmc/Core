@@ -167,7 +167,7 @@ public abstract class PagedInventory extends BaseInventory {
 	public void setBackButton(BaseInventory ae) {
 		persistentButton = new Button(Material.FEATHER, (e, i) -> {
 			e.getWhoClicked().openInventory(ae.getInventory());
-		}, "back");
+		}, "§r§7Back");
 		buttons[0] = persistentButton;
 		inv.setItem(0, persistentButton.getItem());
 	}

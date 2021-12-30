@@ -73,9 +73,9 @@ public class CoreMain extends JavaPlugin implements Listener {
 		pwd = CoreMain.plugin.getServer().getWorldContainer().getAbsolutePath();
 		configPath = CoreMain.plugin.getDataFolder() + File.separator + "config.yml";
 		PlayerDataPath = CoreMain.plugin.getDataFolder() + File.separator + "playerData";
-		backupDir =  homeDir + ".uploads" + File.separator
-				+ "bk" + File.separator + "Survival" 
-				+ File.separator + currentSeason + File.separator;
+		backupDir =  homeDir + "Backups" + File.separator
+				+ "Main" + File.separator + currentSeason
+				+ File.separator;
 		
 		switch (this.getServer().getPort()) {
 		case 25566: machine = Machine.TEST; break;
@@ -97,6 +97,9 @@ public class CoreMain extends JavaPlugin implements Listener {
 		// loads PlayerData
 		
 		PlayerDataManager.setInit(x -> x.setData("AFK", false));
+		PlayerDataManager.setInit(pd -> pd.setData("god", false));
+		PlayerDataManager.setInit(pd -> pd.setData("fly", false));
+		PlayerDataManager.setInit(pd -> pd.setData("vanish", false));
 		
 		PlayerDataManager.setInit(pd -> {
 			
@@ -108,7 +111,7 @@ public class CoreMain extends JavaPlugin implements Listener {
 				pd.setData("homes", homes);
 				return;
 			}
-			
+		
 			ConfigurationSection config = db.getConfigurationSection("homes");
 			
 			if (config != null)
@@ -173,7 +176,6 @@ public class CoreMain extends JavaPlugin implements Listener {
 		
 		System.out.println(Bukkit.getServer().getCommandAliases());
 		
-		new Restart().init(); // Starts auto restart
 		new ReloadConfigify().init();
 	}
 	
