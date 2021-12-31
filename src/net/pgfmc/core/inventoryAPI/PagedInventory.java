@@ -41,9 +41,9 @@ public abstract class PagedInventory extends BaseInventory {
 		System.out.println("Size #: " + size.pageSize);
 		for (int i = 0;
 				i < entries.size();
-				i--	) {
+				i++	) {
 			System.out.println("Attempting to map " + i + " and " + entries.get(i));
-			pages[i / size.pageSize][size.pageSize] = entries.get(i);
+			pages[i / size.pageSize][i % size.pageSize] = entries.get(i);
 		}
 		
 		setPage(page);

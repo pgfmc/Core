@@ -41,13 +41,13 @@ public class Request {
 		public RequestMessage def = (initiate, target, r, req) -> {
 			switch (r) {
 			case Accept:
-				initiate.sendMessage("§aAccepted " + req.parent.getName() + " request -> §n" + target.getRankedName());
-				target.sendMessage("§aAccepted " + req.parent.getName() + " request <- " + initiate.getRankedName());
+				initiate.sendMessage("§aAccepted " + req.parent.getName() + " request -> §n" + target.getNickname());
+				target.sendMessage("§aAccepted " + req.parent.getName() + " request <- " + initiate.getNickname());
 				break;
 			
 			case Deny:
-				initiate.sendMessage("§cDenied " + req.parent.getName() + " request -> §n" + target.getRankedName());
-				target.sendMessage("§cDenied " + req.parent.getName() + " request <- §n" + initiate.getRankedName());
+				initiate.sendMessage("§cDenied " + req.parent.getName() + " request -> §n" + target.getNickname());
+				target.sendMessage("§cDenied " + req.parent.getName() + " request <- §n" + initiate.getNickname());
 				break;
 			
 			case Duplicate:
@@ -56,23 +56,23 @@ public class Request {
 			
 			case Quit:
 				try {
-					initiate.sendMessage("§cQuit " + req.parent.getName() + " request -> §n" + target.getRankedName()); } finally {}
+					initiate.sendMessage("§cQuit " + req.parent.getName() + " request -> §n" + target.getNickname()); } finally {}
 				try {
-					target.sendMessage("§cQuit " + req.parent.getName() + " request <- §n" + initiate.getRankedName()); } finally {}
+					target.sendMessage("§cQuit " + req.parent.getName() + " request <- §n" + initiate.getNickname()); } finally {}
 				break;
 			
 			case Timeout:
 				try {
-					initiate.sendMessage("§cTimeout " + req.parent.getName() + " request -> §n" + target.getRankedName()); } finally {}
+					initiate.sendMessage("§cTimeout " + req.parent.getName() + " request -> §n" + target.getNickname()); } finally {}
 				try {
-					target.sendMessage("§cTimeout " + req.parent.getName() + " request <- §n" + initiate.getRankedName()); } finally {}
+					target.sendMessage("§cTimeout " + req.parent.getName() + " request <- §n" + initiate.getNickname()); } finally {}
 				break;
 			
 			case Force:
 				try {
-					initiate.sendMessage("§cStopped " + req.parent.getName() + " request -> §n" + target.getRankedName()); } finally {}
+					initiate.sendMessage("§cStopped " + req.parent.getName() + " request -> §n" + target.getNickname()); } finally {}
 				try {
-					target.sendMessage("§cStopped " + req.parent.getName() + " request <- §n" + initiate.getRankedName()); } finally {}
+					target.sendMessage("§cStopped " + req.parent.getName() + " request <- §n" + initiate.getNickname()); } finally {}
 				break;
 			}
 		};
@@ -104,8 +104,8 @@ public class Request {
 		
 		if (message.equals(RequestMessage.def))
 		{
-			initiate.sendMessage("§6Outgoing " + parent.getName() + " request -> §n" + target.getRankedName());
-			target.sendMessage("§6Incoming " + parent.getName() + " request <- §n" + initiate.getRankedName());
+			initiate.sendMessage("§6Outgoing " + parent.getName() + " request -> §n" + target.getNickname());
+			target.sendMessage("§6Incoming " + parent.getName() + " request <- §n" + initiate.getNickname());
 		}
 		
 		Requester.ALLREQUESTS.add(this);

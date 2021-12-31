@@ -113,35 +113,24 @@ public class PlayerData extends AbstractPlayerData {
 	
 	// getters and setters
 	
-	public String getNickname(boolean raw)
+	public String getNickname()
 	{
 		Nick.removeImpostors(this);
 		
 		Role role = Role.getDominant(getData("Roles"));
-		String name = getOfflinePlayer().getName();
+		String name = getName();
 		
 		// If role is Donator or higher
 		if (role.getDominance() >= Role.DONATOR.getDominance())
 		{
-			String nick = (String) Optional.ofNullable(getData("nick")).orElse(name);
-			if (raw)
-			{
-				return Nick.removeCodes(nick);
-			} else
-			{
-				return nick;
-			}
-			
+			return (String) Optional.ofNullable(getData("nick")).orElse(name);
 		}
 		return name;
 	}
 	
-	/**
-	 * Gets the Player's Name, Formatted according to their Dominant Role.
-	 * @return The player's name (or nickname if applicable) colored according to their role.
-	 */
-	public String getRankedName() {
-		return getRankColor() + getNickname(false);
+	public String getNicknameRaw()
+	{
+		return Nick.removeCodes(getNickname());
 	}
 	
 	@Override

@@ -45,6 +45,7 @@ public class Nick implements CommandExecutor {
 		
 		
 		Player p = (Player) sender;
+		PlayerData pd = PlayerData.getPlayerData(p);
 		
 		String nick = String.join("", args).replaceAll("[^A-Za-z0-9&]", "").replace("&k", "");
 		String raw = removeCodes(nick);
@@ -73,8 +74,8 @@ public class Nick implements CommandExecutor {
 		 */
 		if (raw.equals("off") || raw.equals("reset") || nick.equals(p.getName()))
 		{
-			PlayerData.setData(p, "nick", null).queue();
-			sender.sendMessage("§6Nickname changed to " + PlayerData.getPlayerData(p).getRankedName() + "§6!");
+			pd.setData("nick", null).queue();
+			sender.sendMessage("§6Nickname changed to " + pd.getNickname() + "§6!");
 			
 			return true;
 		}
@@ -101,8 +102,8 @@ public class Nick implements CommandExecutor {
 		
 		
 		
-		PlayerData.setData(p, "nick", "§r" + nick.replace("&", "§") + "§r").queue();
-		sender.sendMessage("§6Nickname changed to " + PlayerData.getPlayerData(p).getRankedName() + "§6!");
+		pd.setData("nick", pd.getRankColor() + nick.replace("&", "§") + "§r").queue();
+		sender.sendMessage("§6Nickname changed to " + pd.getNickname() + "§6!");
 		
 		return true;
 	}

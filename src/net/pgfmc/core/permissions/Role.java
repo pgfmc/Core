@@ -25,8 +25,6 @@ public enum Role {
 	private String[] permissions;
 	private String id;
 	
-	
-	
 	Role(String cc, int d, String[] pps) {
 		colorCode = cc;
 		dominance = d;

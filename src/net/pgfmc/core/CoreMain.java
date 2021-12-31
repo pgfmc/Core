@@ -3,6 +3,7 @@ package net.pgfmc.core;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -101,6 +102,8 @@ public class CoreMain extends JavaPlugin implements Listener {
 		PlayerDataManager.setInit(pd -> pd.setData("fly", false));
 		PlayerDataManager.setInit(pd -> pd.setData("vanish", false));
 		
+		PlayerDataManager.setInit(pd -> pd.setData("Name", pd.getName()));
+		
 		PlayerDataManager.setInit(pd -> {
 			
 			Map<String, Location> homes = new HashMap<>();
@@ -108,7 +111,7 @@ public class CoreMain extends JavaPlugin implements Listener {
 			
 			if (db == null)
 			{
-				pd.setData("homes", homes);
+				new Exception("FileConfiguration for PlayerData setInit is null.").printStackTrace();
 				return;
 			}
 		
@@ -123,22 +126,17 @@ public class CoreMain extends JavaPlugin implements Listener {
 			
 			pd.setData("homes", homes);
 		});
-		PlayerDataManager.setInit(pd -> {
+		PlayerDataManager.setInit(pd -> { // XXX fix
 			
 			FileConfiguration db = pd.loadFile();
 			
 			if (db == null)
 			{
-				pd.setData("nick", null);
+				new Exception("FileConfiguration for PlayerData setInit is null.").printStackTrace();
 				return;
 			}
 			
-			ConfigurationSection config = db.getConfigurationSection("nick");
-			
-			if (config != null)
-			{
-				config.getKeys(false).forEach(nick -> pd.setData("nick", nick));
-			}
+			pd.setData("nick", Optional.ofNullable(db.getString("nick")).orElse(null));
 		});
 		
 		DimManager.updateConfigForWorldPermissionAccess();
