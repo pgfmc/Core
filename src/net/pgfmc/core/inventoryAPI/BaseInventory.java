@@ -1,6 +1,7 @@
 package net.pgfmc.core.inventoryAPI;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -37,14 +38,10 @@ public abstract class BaseInventory implements InventoryHolder {
 	}
 	
 	public void setButton(int slot, Button b) {
+		if (b == null) b = new Button(Material.AIR);
+		
 		if (slot < sizeD.size && slot > -1) {
-			
-			if (!b.setState(this, slot)) {
-				b = b.clone();
-				return;
-			}
 			buttons[slot] = b;
-			b.setState(this, slot);
 			inv.setItem(slot, b.getItem());
 		}
 	}

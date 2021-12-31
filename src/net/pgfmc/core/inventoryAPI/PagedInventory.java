@@ -3,14 +3,13 @@ package net.pgfmc.core.inventoryAPI;
 import java.util.List;
 
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 public abstract class PagedInventory extends BaseInventory {
 	
 	/**
 	 * The List of entries, in the form of Button(s).
 	 */
-	protected List<Button> entries;
+	protected Button[][] pages;
 	
 	/*
 	 * The Button that is in the top left corner in SMALL inventories, or in the center in BIG ones. Usually used as a back button.
@@ -23,11 +22,6 @@ public abstract class PagedInventory extends BaseInventory {
 	transient int page = 1;
 	
 	/**
-	 * Holds the amount of total pages the inventory has.
-	 */
-	int pages;
-	
-	/**
 	 * Constructor for PagedInventory. The inventory can be in two sizes: 27 or 56 (single or double chest). 
 	 * The method {@code setEntries()} is the method used to load entries.
 	 * @param size The size of the inventory. can only be 27 or 56.
@@ -37,8 +31,17 @@ public abstract class PagedInventory extends BaseInventory {
 	public PagedInventory(SizeData size, String name, List<Button> entries) {
 		super(size, name);
 		
-		this.entries = entries;
-		this.pages = (int) Math.ceil(entries.size() / size.getPageSize());
+		if (size == SizeData.DROPPER || size == SizeData.HOPPER) {
+			throw new IllegalArgumentException();
+		}
+		
+		pages = new Button[(int) Math.ceil(entries.size() / (float) size.getPageSize())][size.pageSize];
+		
+		for (int i = 0;
+				i < entries.size();
+				i--	) {
+			pages[i / size.pageSize][size.pageSize] = entries.get(i);
+		}
 		
 		setPage(page);
 	}
@@ -58,12 +61,13 @@ public abstract class PagedInventory extends BaseInventory {
 			return index + 6;
 		} else {
 			new Exception("input \"index\" is out of bounds!");
+			return -1;
 		}
-		return -1;
+		
 	}
 	
 	protected void flipPage(int flips) {
-		if (flips + page > 0 && flips + page <= pages) {
+		if (flips + page > 0 && flips + page <= pages.length) {
 			page = page + flips;
 			setPage(page);
 		}
@@ -75,77 +79,68 @@ public abstract class PagedInventory extends BaseInventory {
 	 */
 	protected void setPage(int newPage) {
 		
-		buttons = new Button[sizeD.getSize()];
-		inv.clear();
+		if (newPage > pages.length || newPage < 1) return;
 		
-		if (newPage > pages || newPage < 1) {
-			return;
-		}
+		//buttons = new Button[sizeD.getSize()];
+		//inv.clear();
 		
-		this.page = newPage;
+		page = newPage;
 		
-		// Places the next and previous page buttons in their respective spots in the inventory.
-		if (page > 1) {
-			if (sizeD == SizeData.BIG) {
+		if (sizeD == SizeData.BIG) {
+			
+			// sets the Previous page button, if apropriate.
+			if (page > 1) {
 				setButton(48, new Button(Material.IRON_HOE, (x, e) -> {
 					flipPage(-1);
 				}, "Previous Page"));
-				
 			} else {
-				setButton(9, new Button(Material.IRON_HOE, (x, e) -> {
-					flipPage(-1);
-				}, "Previous Page"));
+				setButton(48, null);
 			}
-		}
-		
-		if (page < pages) {
-			if (sizeD == SizeData.BIG) {
+			
+			// sets the next page button, if apropriate.
+			if (page < pages.length) {
 				setButton(50, new Button(Material.ARROW, (x, e) -> {
 					flipPage(+1);
 				}, "Next Page"));
 			} else {
-				setButton(18 , new Button(Material.ARROW, (x, e) -> {
+				setButton(50, null);
+			}
+			
+			Button[] currentPage = pages[page -1];
+			for (int i = 0;
+					i < 36;
+					i++) {
+				
+				setButton(i, currentPage[i]);
+			}
+			
+		} else if (sizeD == SizeData.SMALL) {
+			
+			// sets the Previous page button, if apropriate.
+			if (page > 1) {
+				setButton(9, new Button(Material.IRON_HOE, (x, e) -> {
+					flipPage(-1);
+				}, "Previous Page"));
+			} else {
+				setButton(9, null);
+			}
+			
+			// sets the next page button, if apropriate.
+			if (page < pages.length) {
+				setButton(18, new Button(Material.ARROW, (x, e) -> {
 					flipPage(+1);
 				}, "Next Page"));
+			} else {
+				setButton(18, null);
 			}
-		}
-		
-		// Places the entries in the correct spots. ----- WIP
-		if (sizeD == SizeData.BIG) {
-			for (int i = 0; i < 36; i++) {
-				if (i >= entries.size()) { // if "i" gets bigger than the entries size.
-					
-					buttons[i] = null;
-					inv.setItem(i, new ItemStack(Material.AIR));
-					
-				} else {
-					
-					Button button = entries.get(i + (page - 1) * 36);
-					
-					buttons[i] = button;
-					inv.setItem(i, button.getItem());
-				}
-			}
-		} else if (sizeD == SizeData.SMALL) {
-			for (int i = 0; i < 21; i++) {
-				if (i + (page - 1) * 21 >= entries.size()) { // if "i" gets bigger than the entries size.
-					
-					
-					inv.setItem(entryToSlot(i), new ItemStack(Material.AIR));
-				} else {
-					Button button = entries.get(i + (page - 1) * 21);
-					
-					buttons[i] = button;
-					inv.setItem(entryToSlot(i), button.getItem());
-				}
-			}
-		}
-		
-		// re-sets the button in the top left
-		if (persistentButton != null) {
 			
-			buttons[0] = persistentButton;
-			inv.setItem(0, persistentButton.getItem());
+			Button[] currentPage = pages[page -1];
+			for (int i = 0;
+					i < 21;
+					i++) {
+				
+				setButton(entryToSlot(i), currentPage[i]);
+			}
 		}
 	}
 	
@@ -158,6 +153,7 @@ public abstract class PagedInventory extends BaseInventory {
 	 */
 	protected void setPersistentButton(Button b) {
 		persistentButton = b;
+		setButton(0, persistentButton);
 	}
 	
 	/**
@@ -165,14 +161,13 @@ public abstract class PagedInventory extends BaseInventory {
 	 * @param ae
 	 */
 	public void setBackButton(BaseInventory ae) {
-		persistentButton = new Button(Material.FEATHER, (e, i) -> {
+		
+		setPersistentButton(new Button(Material.FEATHER, (e, i) -> {
 			e.getWhoClicked().openInventory(ae.getInventory());
-		}, "§r§7Back");
-		buttons[0] = persistentButton;
-		inv.setItem(0, persistentButton.getItem());
+		}, "§r§7Back"));
 	}
 	
-	public List<Button> getEntries() {
-		return entries;
+	public Button[][] getPages() {
+		return pages;
 	}
 }

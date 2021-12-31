@@ -7,15 +7,15 @@ package net.pgfmc.core.inventoryAPI;
  *
  */
 public enum SizeData {
-	BIG(56, 36.0f),
-	SMALL(27, 21.0f),
-	HOPPER(5, 0.0f),
-	DROPPER(9, .0f);
+	BIG(56, 36),
+	SMALL(27, 21),
+	HOPPER(5, 0),
+	DROPPER(9, 0);
 	
-	public int size;
-	public float pageSize;
+	protected int size;
+	protected int pageSize;
 	
-	SizeData(int size, float pageSize) {
+	SizeData(int size, int pageSize) {
 		this.size = size;
 		this.pageSize = pageSize;
 	}
@@ -24,7 +24,7 @@ public enum SizeData {
 		return size;
 	}
 	
-	float getPageSize() {
+	int getPageSize() {
 		return pageSize;
 	}
 }

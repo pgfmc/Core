@@ -15,8 +15,8 @@ public interface Butto {
 	/**
 	 * The default button function used in place of null.
 	 */
-	public final Butto defaultButto = (e, i) -> {};
-	public final Butto unProtectedButto = (e, i) -> {
+	public static final Butto defaultButto = (e, i) -> {};
+	public static final Butto unProtectedButto = (e, i) -> {
 		e.setCancelled(false);
 	};
 }
