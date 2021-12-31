@@ -139,59 +139,16 @@ public class Permissions implements Listener {
 		List<Role> r = pd.getData("Roles");
 		
 		Player p = pd.getPlayer();
+		
+		if (p == null)
+		{
+			System.out.println("Updating perms failed, player was offline");
+			return;
+		}
 			
 		PermissionAttachment permatch = p.addAttachment(CoreMain.plugin);
 		
-		if (r != null && !p.isOp()) {
-			
-			for (String s : defaultPerms) {
-				permatch.setPermission(s, true);
-			}
-			
-			for (String s : disabledPerms) {
-				permatch.setPermission(s, false);
-			}
-			
-			for (String s : donatorPerms) {
-				permatch.setPermission(s, r.contains(Role.VETERAN) || r.contains(Role.DONATOR));
-			}
-			
-			for (String s : modPerms) {
-				permatch.setPermission(s, r.contains(Role.MODERATOR));
-			}
-			
-			for (String s : devPerms) {
-				permatch.setPermission(s, r.contains(Role.DEVELOPER));
-			}
-			
-			for (String s : adminPerms) {
-				permatch.setPermission(s, r.contains(Role.ADMIN));
-			}
-		} else if (r == null && !p.isOp()) {
-			for (String s : defaultPerms) {
-				permatch.setPermission(s, true);
-			}
-			
-			for (String s : disabledPerms) {
-				permatch.setPermission(s, false);
-			}
-			
-			for (String s : veteranPerms) {
-				permatch.setPermission(s, false);
-			}
-			
-			for (String s : modPerms) {
-				permatch.setPermission(s, false);
-			}
-			
-			for (String s : devPerms) {
-				permatch.setPermission(s, false);
-			}
-			
-			for (String s : adminPerms) {
-				permatch.setPermission(s, false);
-			}
-		} else if (p.isOp())
+		if (p.isOp())
 		{
 			for (String s : defaultPerms) {
 				permatch.setPermission(s, true);
@@ -215,8 +172,58 @@ public class Permissions implements Listener {
 			
 			for (String s : adminPerms) {
 				permatch.setPermission(s, true);
+			} 
+		} else if (r != null) {
+				
+				for (String s : defaultPerms) {
+					permatch.setPermission(s, true);
+				}
+				
+				for (String s : disabledPerms) {
+					permatch.setPermission(s, false);
+				}
+				
+				for (String s : donatorPerms) {
+					permatch.setPermission(s, r.contains(Role.VETERAN) || r.contains(Role.DONATOR));
+				}
+				
+				for (String s : modPerms) {
+					permatch.setPermission(s, r.contains(Role.MODERATOR));
+				}
+				
+				for (String s : devPerms) {
+					permatch.setPermission(s, r.contains(Role.DEVELOPER));
+				}
+				
+				for (String s : adminPerms) {
+					permatch.setPermission(s, r.contains(Role.ADMIN));
+				}
+			} else if (r == null) {
+				for (String s : defaultPerms) {
+					permatch.setPermission(s, true);
+				}
+				
+				for (String s : disabledPerms) {
+					permatch.setPermission(s, false);
+				}
+				
+				for (String s : veteranPerms) {
+					permatch.setPermission(s, false);
+				}
+				
+				for (String s : modPerms) {
+					permatch.setPermission(s, false);
+				}
+				
+				for (String s : devPerms) {
+					permatch.setPermission(s, false);
+				}
+				
+				for (String s : adminPerms) {
+					permatch.setPermission(s, false);
+				}
 			}
-		}
+		
 		p.recalculatePermissions();
 		p.updateCommands();
 	}

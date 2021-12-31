@@ -16,8 +16,8 @@ public enum Role {
 	DEVELOPER("§2✦", 5, Permissions.devPerms),
 	MODERATOR("§d✦", 4, Permissions.modPerms),
 	TRAINEE("§5✦", 3, Permissions.traineePerms),
-	VETERAN("§9", 2, Permissions.veteranPerms),
-	DONATOR("§e", 1, Permissions.donatorPerms),
+	DONATOR("§e", 2, Permissions.donatorPerms),
+	VETERAN("§9", 1, Permissions.veteranPerms),
 	MEMBER("§6", 0, Permissions.defaultPerms);
 	
 	private String colorCode;
