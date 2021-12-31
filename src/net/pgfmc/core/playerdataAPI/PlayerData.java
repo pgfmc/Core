@@ -105,11 +105,7 @@ public class PlayerData extends AbstractPlayerData {
 	{
 		for (PlayerData uid : instances)
 		{
-			if (uid.getData("Discord") == null) { continue; }
-			if (((String) uid.getData("Discord")).equals(discordUserId))
-			{
-				return uid;
-			}
+			if (discordUserId.equals(uid.getData("Discord"))) return uid;
 		}
 		return null;
 		
