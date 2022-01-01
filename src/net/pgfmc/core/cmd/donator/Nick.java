@@ -75,7 +75,7 @@ public class Nick implements CommandExecutor {
 		if (raw.equals("off") || raw.equals("reset") || nick.equals(p.getName()))
 		{
 			pd.setData("nick", null).queue();
-			sender.sendMessage("§6Nickname changed to " + pd.getNickname() + "§6!");
+			sender.sendMessage("§6Nickname changed to " + pd.getRankedName() + "§6!");
 			
 			return true;
 		}
@@ -103,7 +103,7 @@ public class Nick implements CommandExecutor {
 		
 		
 		pd.setData("nick", pd.getRankColor() + nick.replace("&", "§") + "§r").queue();
-		sender.sendMessage("§6Nickname changed to " + pd.getNickname() + "§6!");
+		sender.sendMessage("§6Nickname changed to " + pd.getRankedName() + "§6!");
 		
 		return true;
 	}

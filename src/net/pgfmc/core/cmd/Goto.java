@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import net.pgfmc.core.DimManager;
+import net.pgfmc.core.misc.DimManager;
 import net.pgfmc.core.playerdataAPI.PlayerData;
 
 /**

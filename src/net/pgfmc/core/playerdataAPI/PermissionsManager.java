@@ -1,4 +1,4 @@
-package net.pgfmc.core.permissions;
+package net.pgfmc.core.playerdataAPI;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,10 +16,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 
-import net.pgfmc.core.CoreMain;
-import net.pgfmc.core.Mixins;
 import net.pgfmc.core.configify.Configify;
-import net.pgfmc.core.playerdataAPI.PlayerData;
+import net.pgfmc.core.misc.CoreMain;
+import net.pgfmc.core.misc.Mixins;
 
 public class PermissionsManager extends Configify implements Listener {
 	
@@ -30,16 +29,13 @@ public class PermissionsManager extends Configify implements Listener {
 	 * 
 	 * @param pd PlayerData of player
 	 */
-	public static void recalcPerms(PlayerData pd)
-	{
+	public static void recalcPerms(PlayerData pd) {
 		Player player = pd.getPlayer();
 		if (player == null)
 		{
 			System.out.println("Updating perms failed, player was offline");
 			return;
 		}
-		
-		
 		
 		Set<Permission> perms = getPermissions(pd);
 		PermissionAttachment patt = player.addAttachment(CoreMain.plugin);
