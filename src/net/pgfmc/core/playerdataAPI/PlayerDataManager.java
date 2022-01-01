@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import net.pgfmc.core.CoreMain;
+import net.pgfmc.core.misc.CoreMain;
 
 public class PlayerDataManager implements Listener {
 	

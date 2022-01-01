@@ -16,10 +16,9 @@ import java.util.stream.StreamSupport;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import net.pgfmc.core.CoreMain;
-import net.pgfmc.core.Mixins;
 import net.pgfmc.core.cmd.donator.Nick;
-import net.pgfmc.core.permissions.PermissionsManager;
+import net.pgfmc.core.misc.CoreMain;
+import net.pgfmc.core.misc.Mixins;
 
 /**
  * stores dynamic, temporary and non-temporary data for each player.
@@ -109,7 +108,7 @@ public final class PlayerData extends AbstractPlayerData {
 	
 	// getters and setters
 	
-	public String getNickname()
+	public String getRankedName()
 	{
 		Nick.removeImpostors(this);
 		String name = getName();
@@ -118,7 +117,7 @@ public final class PlayerData extends AbstractPlayerData {
 	
 	public String getNicknameRaw()
 	{
-		return Nick.removeCodes(getNickname());
+		return Nick.removeCodes(getRankedName());
 	}
 	
 	@Override
