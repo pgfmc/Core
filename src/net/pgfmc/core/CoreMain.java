@@ -11,7 +11,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.event.server.ServerLoadEvent.LoadType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,7 +25,6 @@ import net.pgfmc.core.cmd.donator.Nick;
 import net.pgfmc.core.configify.ReloadConfigify;
 import net.pgfmc.core.inventoryAPI.InventoryPressEvent;
 import net.pgfmc.core.permissions.PermissionsManager;
-import net.pgfmc.core.playerdataAPI.PlayerData;
 import net.pgfmc.core.playerdataAPI.PlayerDataManager;
 
 /**
@@ -67,9 +65,6 @@ public class CoreMain extends JavaPlugin implements Listener {
 	{ 
 		// defines all constants for the plugin
 		plugin = this;
-		
-		
-		
 		
 		pwd = CoreMain.plugin.getServer().getWorldContainer().getAbsolutePath();
 		configPath = CoreMain.plugin.getDataFolder() + File.separator + "config.yml";
@@ -195,13 +190,6 @@ public class CoreMain extends JavaPlugin implements Listener {
 		}
 		isSurvivalEnabled = Bukkit.getPluginManager().isPluginEnabled("PGF-Survival");
 		isBotEnabled = Bukkit.getPluginManager().isPluginEnabled("PGF-Bot");
-	}
-	
-	@EventHandler
-	public void onJoin(PlayerJoinEvent e) {
-		if (PlayerData.getPlayerData(e.getPlayer()) == null) {
-			new PlayerData(e.getPlayer());
-		}
 	}
 	
 	public static boolean isSurvivalEnabled() {

@@ -85,6 +85,9 @@ public class PlayerDataManager implements Listener {
 	
 	@EventHandler
 	public void onJoinEvent(PlayerJoinEvent e) {
+		if (PlayerData.getPlayerData(e.getPlayer()) == null) {
+			new PlayerData(e.getPlayer());
+		}
 		PlayerData.getPlayerData(e.getPlayer()).setOnline(e.getPlayer());
 	}
 	

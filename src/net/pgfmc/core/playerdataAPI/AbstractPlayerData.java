@@ -1,5 +1,7 @@
 package net.pgfmc.core.playerdataAPI;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -12,6 +14,8 @@ public abstract class AbstractPlayerData {
 	
 	protected OfflinePlayer player;
 	protected Player online;
+
+	private final static List<AbstractPlayerData> onlinePlayers = new ArrayList<>();
 	
 	protected AbstractPlayerData(OfflinePlayer p) {
 		player = p;
@@ -91,7 +95,28 @@ public abstract class AbstractPlayerData {
 		}
 	}
 	
+	/**
+	 * switches this player to online;
+	 */
+	protected void setOnline(Player p) {
+		online = p;
+		onlinePlayers.add(this);
+	}
 	
+	/**
+	 * turns this player offline :(
+	 */
+	protected void setOffline() {
+		online = null;
+		onlinePlayers.remove(this);
+	}
 	
+	/**
+	 * returns all online player's PlayerData.
+	 * @return
+	 */
+	public static List<AbstractPlayerData> getOnlinePlayerData() {
+		return AbstractPlayerData.onlinePlayers;
+	}
 	
 }

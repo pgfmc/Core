@@ -15,7 +15,6 @@ import java.util.stream.StreamSupport;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import net.pgfmc.core.CoreMain;
 import net.pgfmc.core.Mixins;
@@ -26,33 +25,30 @@ import net.pgfmc.core.permissions.PermissionsManager;
  * stores dynamic, temporary and non-temporary data for each player.
  * @author CrimsonDart
  */
-public class PlayerData extends AbstractPlayerData {
+public final class PlayerData extends AbstractPlayerData {
 	
 	// fields
 	
 	/**
 	 * Hashmap to contain all instances of PlayerData, so they can be accesed.
 	 */
-	private static Set<PlayerData> instances = new HashSet<PlayerData>();
-	private static Set<PlayerData> debug = new HashSet<PlayerData>();
-	private static List<PlayerData> onlinePlayers = new LinkedList<>();
+	private final static Set<PlayerData> instances = new HashSet<PlayerData>();
+	private final static Set<PlayerData> debug = new HashSet<PlayerData>();
 	
-	private HashMap<String, Object> data = new HashMap<String, Object>();
-	protected List<String> queue = new LinkedList<String>();
+	private final HashMap<String, Object> data = new HashMap<String, Object>();
+	protected final List<String> queue = new LinkedList<String>();
 	
 	/**
 	 * Creates a new PlayerData for anyone who joins the server for the first time.
 	 * @param p Player who joined.
 	 */
-	public PlayerData(OfflinePlayer p) {
+	protected PlayerData(OfflinePlayer p) {
 		super(p);
 		
 		PlayerData pd = getPlayerData(p);
 		if (pd == null) {
 			
-			
 			for (Consumer<PlayerData> consoomer : PlayerDataManager.pdInit) {
-				
 				consoomer.accept(this);
 			}
 			
@@ -135,14 +131,6 @@ public class PlayerData extends AbstractPlayerData {
 		return false;
 	}
 	
-	public boolean equals(PlayerData o) {
-		return o.getUniqueId().toString().equals(getUniqueId().toString());
-	}
-	
-	
-	
-	
-	
 	/**
 	 * Gets the Player's Role prefix.
 	 * @return The player's role prefix.
@@ -167,12 +155,12 @@ public class PlayerData extends AbstractPlayerData {
 		}
 	}
 	
-	public boolean getDebug() {
+	public boolean isDebug() {
 		return (debug.contains(this));
 	}
 	
 	public void toggleDebug() {
-		setDebug(!getDebug());
+		setDebug(!isDebug());
 	}
 	
 	public static void sendDebug(String message) {
@@ -189,9 +177,7 @@ public class PlayerData extends AbstractPlayerData {
 	 * @param d The data itself
 	 */
 	public static Queueable setData(OfflinePlayer p, String n, Object d) { // static function that passes to non-static setData
-		if (p == null) {
-			return null;
-		}
+		if (p == null) return null;
 		return getPlayerData(p).setData(n, d);
 	}
 	
@@ -296,27 +282,9 @@ public class PlayerData extends AbstractPlayerData {
 
 		FileConfiguration database = Mixins.getDatabase(CoreMain.PlayerDataPath + File.separator + getUniqueId().toString() + ".yml");
 		database.set(path, payload);
-		//queue.forEach((s, o) -> database.set(s, o));
-		//queue.clear();
 		System.out.println("Queue saved to system!");
 		
 		Mixins.saveDatabase(database, CoreMain.PlayerDataPath + File.separator + getUniqueId().toString() + ".yml");
-	}
-	
-	/**
-	 * switches this player to online;
-	 */
-	protected void setOnline(Player p) {
-		online = p;
-		onlinePlayers.add(this);
-	}
-	
-	/**
-	 * turns this player offline :(
-	 */
-	protected void setOffline() {
-		online = null;
-		onlinePlayers.remove(this);
 	}
 	
 	/**
@@ -328,25 +296,11 @@ public class PlayerData extends AbstractPlayerData {
 	}
 	
 	/**
-	 * Returns the amount of PlayerDatas currently loaded.
-	 * @return the amount of playerdatas.
-	 */
-	public static int size() {
-		return instances.size();
-	}
-	
-	/**
 	 * Returns a stream of each PlayerData.
 	 */
 	public static Stream<PlayerData> stream() {
 		return StreamSupport.stream(getPlayerDataSet().spliterator(), false);
 	}
 	
-	/**
-	 * returns all online player's PlayerData.
-	 * @return
-	 */
-	public static List<PlayerData> getOnlinePlayerData() {
-		return onlinePlayers;
-	}
+	
 }
