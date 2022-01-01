@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 import net.pgfmc.core.CoreMain;
 import net.pgfmc.core.Mixins;
 import net.pgfmc.core.cmd.donator.Nick;
-import net.pgfmc.core.permissions.Role;
+import net.pgfmc.core.permissions.PermissionsManager;
 
 /**
  * stores dynamic, temporary and non-temporary data for each player.
@@ -116,16 +116,8 @@ public class PlayerData extends AbstractPlayerData {
 	public String getNickname()
 	{
 		Nick.removeImpostors(this);
-		
-		Role role = Role.getDominant(getData("Roles"));
 		String name = getName();
-		
-		// If role is Donator or higher
-		if (role.getDominance() >= Role.DONATOR.getDominance())
-		{
-			return (String) Optional.ofNullable(getData("nick")).orElse(name);
-		}
-		return name;
+		return (String) Optional.ofNullable(getData("nick")).orElse(name);
 	}
 	
 	public String getNicknameRaw()
@@ -156,7 +148,15 @@ public class PlayerData extends AbstractPlayerData {
 	 * @return The player's role prefix.
 	 */
 	public String getRankColor() {
-		return Role.getDominant(getData("Roles")).getColorCode();
+		// Role positions in list are guarenteed to be ordered by JDA, index 0 is top Role
+		List<String> roles = getData("Roles");
+		
+		if (roles.isEmpty())
+		{
+			return PermissionsManager.getRolePrefix("Member");
+		}
+		
+		return PermissionsManager.getRolePrefix(roles.get(0));
 	}
 	
 	public void setDebug(boolean d) {

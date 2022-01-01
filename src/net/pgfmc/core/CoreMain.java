@@ -25,7 +25,7 @@ import net.pgfmc.core.cmd.admin.Tagging;
 import net.pgfmc.core.cmd.donator.Nick;
 import net.pgfmc.core.configify.ReloadConfigify;
 import net.pgfmc.core.inventoryAPI.InventoryPressEvent;
-import net.pgfmc.core.permissions.Permissions;
+import net.pgfmc.core.permissions.PermissionsManager;
 import net.pgfmc.core.playerdataAPI.PlayerData;
 import net.pgfmc.core.playerdataAPI.PlayerDataManager;
 
@@ -90,6 +90,11 @@ public class CoreMain extends JavaPlugin implements Listener {
 		Mixins.getFile(configPath);
 		new File(PlayerDataPath).mkdirs();
 		
+		File permFile = new File(CoreMain.plugin.getDataFolder() + File.separator + "permissions.yml");
+		if (!permFile.exists()) {
+			PermissionsManager.loadDefaultYml();
+		}
+		
 		// scoreboard stuff
 		Scoreboard scorebored = Bukkit.getScoreboardManager().getNewScoreboard();
 		scorebored.registerNewTeam("survival");
@@ -103,6 +108,8 @@ public class CoreMain extends JavaPlugin implements Listener {
 		PlayerDataManager.setInit(pd -> pd.setData("vanish", false));
 		
 		PlayerDataManager.setInit(pd -> pd.setData("Name", pd.getName()));
+		
+		PlayerDataManager.setInit(pd -> { PermissionsManager.recalcPerms(pd); });
 		
 		PlayerDataManager.setInit(pd -> {
 			
@@ -168,11 +175,8 @@ public class CoreMain extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(this, this);
 		
 		getServer().getPluginManager().registerEvents(new InventoryPressEvent(), this);
-		getServer().getPluginManager().registerEvents(new Permissions(), this);
+		getServer().getPluginManager().registerEvents(new PermissionsManager(), this);
 		getServer().getPluginManager().registerEvents(new PlayerDataManager(), this);
-		
-		
-		System.out.println(Bukkit.getServer().getCommandAliases());
 		
 		new ReloadConfigify().init();
 	}
