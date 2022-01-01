@@ -29,16 +29,13 @@ public class PermissionsManager extends Configify implements Listener {
 	 * 
 	 * @param pd PlayerData of player
 	 */
-	public static void recalcPerms(PlayerData pd)
-	{
+	public static void recalcPerms(PlayerData pd) {
 		Player player = pd.getPlayer();
 		if (player == null)
 		{
 			System.out.println("Updating perms failed, player was offline");
 			return;
 		}
-		
-		
 		
 		Set<Permission> perms = getPermissions(pd);
 		PermissionAttachment patt = player.addAttachment(CoreMain.plugin);
