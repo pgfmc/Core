@@ -113,7 +113,7 @@ public class PlayerData extends AbstractPlayerData {
 	
 	// getters and setters
 	
-	public String getNickname()
+	public String getRankedName()
 	{
 		Nick.removeImpostors(this);
 		
@@ -130,7 +130,7 @@ public class PlayerData extends AbstractPlayerData {
 	
 	public String getNicknameRaw()
 	{
-		return Nick.removeCodes(getNickname());
+		return Nick.removeCodes(getRankedName());
 	}
 	
 	@Override

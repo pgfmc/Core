@@ -30,7 +30,7 @@ public class Tagging implements CommandExecutor {
 		PlayerData pd = PlayerData.getPlayerData(p);
 		pd.setData(path, tag).queue();
 		
-		sender.sendMessage(pd.getNickname() + " §ahas been tagged! §6" + path + " -> " + tag);
+		sender.sendMessage(pd.getRankedName() + " §ahas been tagged! §6" + path + " -> " + tag);
 		
 		// true/false for feedback to target
 		if (args.length >= 4 && Boolean.valueOf(args[3]))
