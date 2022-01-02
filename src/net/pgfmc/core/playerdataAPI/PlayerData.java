@@ -110,6 +110,7 @@ public final class PlayerData extends AbstractPlayerData {
 	// getters and setters
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	public String getRankedName()
 	{
 		Nick.removeImpostors(this);
@@ -121,6 +122,8 @@ public final class PlayerData extends AbstractPlayerData {
 	{
 		return Nick.removeCodes(getRankedName());
 =======
+=======
+>>>>>>> parent of 90a268f (h)
 	public String getNickname(boolean raw)
 	{
 		Nick.removeImpostors(this);
@@ -150,6 +153,9 @@ public final class PlayerData extends AbstractPlayerData {
 	 */
 	public String getRankedName() {
 		return getRankColor() + getNickname(false);
+<<<<<<< HEAD
+>>>>>>> parent of 90a268f (h)
+=======
 >>>>>>> parent of 90a268f (h)
 	}
 	

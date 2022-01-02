@@ -102,10 +102,13 @@ public class CoreMain extends JavaPlugin implements Listener {
 		PlayerDataManager.setInit(pd -> pd.setData("vanish", false));
 		
 <<<<<<< HEAD:src/net/pgfmc/core/misc/CoreMain.java
+<<<<<<< HEAD:src/net/pgfmc/core/misc/CoreMain.java
 		PlayerDataManager.setInit(pd -> pd.setData("Name", pd.getName()));
 		
 		PlayerDataManager.setInit(pd -> { PermissionsManager.recalcPerms(pd); });
 		
+=======
+>>>>>>> parent of 90a268f (h):src/net/pgfmc/core/CoreMain.java
 =======
 >>>>>>> parent of 90a268f (h):src/net/pgfmc/core/CoreMain.java
 		PlayerDataManager.setInit(pd -> {

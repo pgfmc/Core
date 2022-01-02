@@ -74,8 +74,13 @@ public class Nick implements CommandExecutor {
 		if (raw.equals("off") || raw.equals("reset") || nick.equals(p.getName()))
 		{
 <<<<<<< HEAD
+<<<<<<< HEAD
 			pd.setData("nick", null).queue();
 			sender.sendMessage("§6Nickname changed to " + pd.getRankedName() + "§6!");
+=======
+			PlayerData.setData(p, "nick", null).queue();
+			sender.sendMessage("§6Nickname changed to " + PlayerData.getPlayerData(p).getRankedName() + "§6!");
+>>>>>>> parent of 90a268f (h)
 =======
 			PlayerData.setData(p, "nick", null).queue();
 			sender.sendMessage("§6Nickname changed to " + PlayerData.getPlayerData(p).getRankedName() + "§6!");
@@ -107,8 +112,13 @@ public class Nick implements CommandExecutor {
 		
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
 		pd.setData("nick", pd.getRankColor() + nick.replace("&", "§") + "§r").queue();
 		sender.sendMessage("§6Nickname changed to " + pd.getRankedName() + "§6!");
+=======
+		PlayerData.setData(p, "nick", "§r" + nick.replace("&", "§") + "§r").queue();
+		sender.sendMessage("§6Nickname changed to " + PlayerData.getPlayerData(p).getRankedName() + "§6!");
+>>>>>>> parent of 90a268f (h)
 =======
 		PlayerData.setData(p, "nick", "§r" + nick.replace("&", "§") + "§r").queue();
 		sender.sendMessage("§6Nickname changed to " + PlayerData.getPlayerData(p).getRankedName() + "§6!");
