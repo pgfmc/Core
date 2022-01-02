@@ -11,5 +11,5 @@ module core {
 	exports net.pgfmc.core.report;
 
 	requires java.logging;
-	requires org.bukkit;
+	requires transitive org.bukkit;
 }
