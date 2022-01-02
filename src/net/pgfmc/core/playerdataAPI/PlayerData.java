@@ -109,6 +109,7 @@ public final class PlayerData extends AbstractPlayerData {
 	
 	// getters and setters
 	
+<<<<<<< HEAD
 	public String getRankedName()
 	{
 		Nick.removeImpostors(this);
@@ -119,6 +120,37 @@ public final class PlayerData extends AbstractPlayerData {
 	public String getNicknameRaw()
 	{
 		return Nick.removeCodes(getRankedName());
+=======
+	public String getNickname(boolean raw)
+	{
+		Nick.removeImpostors(this);
+		
+		Role role = Role.getDominant(getData("Roles"));
+		String name = getOfflinePlayer().getName();
+		
+		// If role is Donator or higher
+		if (role.getDominance() >= Role.DONATOR.getDominance())
+		{
+			String nick = (String) Optional.ofNullable(getData("nick")).orElse(name);
+			if (raw)
+			{
+				return Nick.removeCodes(nick);
+			} else
+			{
+				return nick;
+			}
+			
+		}
+		return name;
+	}
+	
+	/**
+	 * Gets the Player's Name, Formatted according to their Dominant Role.
+	 * @return The player's name (or nickname if applicable) colored according to their role.
+	 */
+	public String getRankedName() {
+		return getRankColor() + getNickname(false);
+>>>>>>> parent of 90a268f (h)
 	}
 	
 	@Override
