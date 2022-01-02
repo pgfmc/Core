@@ -167,12 +167,12 @@ public class PlayerData extends AbstractPlayerData {
 		}
 	}
 	
-	public boolean getDebug() {
+	public boolean isDebug() {
 		return (debug.contains(this));
 	}
 	
 	public void toggleDebug() {
-		setDebug(!getDebug());
+		setDebug(!isDebug());
 	}
 	
 	public static void sendDebug(String message) {
