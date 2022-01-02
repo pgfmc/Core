@@ -24,7 +24,7 @@ import net.pgfmc.core.cmd.admin.Tagging;
 import net.pgfmc.core.cmd.donator.Nick;
 import net.pgfmc.core.configify.ReloadConfigify;
 import net.pgfmc.core.inventoryAPI.InventoryPressEvent;
-import net.pgfmc.core.playerdataAPI.PermissionsManager;
+import net.pgfmc.core.permissions.PermissionsManager;
 import net.pgfmc.core.playerdataAPI.PlayerDataManager;
 
 /**

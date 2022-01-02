@@ -1,4 +1,4 @@
-package net.pgfmc.core.playerdataAPI;
+package net.pgfmc.core.permissions;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ import org.bukkit.permissions.PermissionAttachment;
 import net.pgfmc.core.configify.Configify;
 import net.pgfmc.core.misc.CoreMain;
 import net.pgfmc.core.misc.Mixins;
+import net.pgfmc.core.playerdataAPI.PlayerData;
 
 public class PermissionsManager extends Configify implements Listener {
 	

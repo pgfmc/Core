@@ -19,6 +19,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import net.pgfmc.core.cmd.donator.Nick;
 import net.pgfmc.core.misc.CoreMain;
 import net.pgfmc.core.misc.Mixins;
+import net.pgfmc.core.permissions.PermissionsManager;
 
 /**
  * stores dynamic, temporary and non-temporary data for each player.
