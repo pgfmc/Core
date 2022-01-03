@@ -102,7 +102,7 @@ public class Nick implements CommandExecutor {
 		
 		
 		
-		pd.setData("nick", pd.getRankColor() + nick.replace("&", "§") + "§r").queue();
+		pd.setData("nick", nick.replace("&", "§") + "§r").queue();
 		sender.sendMessage("§6Nickname changed to " + pd.getRankedName() + "§6!");
 		
 		return true;
@@ -142,6 +142,7 @@ public class Nick implements CommandExecutor {
 	public static void removeImpostors(PlayerData pd)
 	{
 		String raw = removeCodes((String) Optional.ofNullable(PlayerData.getData(pd.getOfflinePlayer(), "nick")).orElse(pd.getName()));
+		if (raw.equals(pd.getName())) { return; }
 		
 		for (OfflinePlayer op : Bukkit.getOfflinePlayers())
 		{
