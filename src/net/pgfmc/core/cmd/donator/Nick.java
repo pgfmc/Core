@@ -81,18 +81,20 @@ public class Nick implements CommandExecutor {
 		}
 		
 		/*
-		 * No impostors
+		 * No impostors, check removeImpostors() for comments
 		 */
-		for (OfflinePlayer op : Bukkit.getOfflinePlayers())
+		for (OfflinePlayer op2 : Bukkit.getOfflinePlayers())
 		{
-			if (op.getUniqueId().equals(p.getUniqueId())) { continue; }
+			String raw2 = raw.toLowerCase();
+			if (raw2.equals(pd.getName().toLowerCase())) { break; }
 			
-			if (op.getName().equals(raw) || removeCodes(
-					(String) Optional.ofNullable(PlayerData.getData(op, "nick"))
-					.orElse(""))
-					.equals(raw))
+			if (op2.getUniqueId().equals(pd.getUniqueId())) { continue; }
+			
+			if (op2.getName().toLowerCase().equals(raw2) || removeCodes(
+					((String) Optional.ofNullable(PlayerData.getData(op2, "nick")).orElse(""))).toLowerCase()
+					.equals(raw2))
 			{
-				sender.sendMessage("§cYou cannot have the same name as another player!");
+				p.sendMessage("§cYou cannot have the same name as another player!");
 				return true;
 			}
 		}
@@ -141,18 +143,23 @@ public class Nick implements CommandExecutor {
 	 */
 	public static void removeImpostors(PlayerData pd)
 	{
-		String raw = removeCodes((String) Optional.ofNullable(PlayerData.getData(pd.getOfflinePlayer(), "nick")).orElse(pd.getName()));
-		if (raw.equals(pd.getName())) { return; }
+		// The nickname without color codes
+		String raw = removeCodes((String) Optional.ofNullable(PlayerData.getData(pd.getOfflinePlayer(), "nick")).orElse(pd.getName())).toLowerCase();
+		// If their raw nickname is just their player name, ignore
+		if (raw.equals(pd.getName().toLowerCase())) { return; }
 		
+		// Loop through every player
 		for (OfflinePlayer op : Bukkit.getOfflinePlayers())
 		{
+			// Skip the player who's nickname we're checking for impostors
 			if (op.getUniqueId().equals(pd.getUniqueId())) { continue; }
 			
-			if (op.getName().equals(raw) || removeCodes(
-					(String) Optional.ofNullable(PlayerData.getData(op, "nick"))
-					.orElse(""))
+			// If player1's name matches player2's name OR their raw nicknames match
+			if (op.getName().toLowerCase().equals(raw) || removeCodes(
+					((String) Optional.ofNullable(PlayerData.getData(op, "nick")).orElse(""))).toLowerCase()
 					.equals(raw))
 			{
+				// Remove the impostor's nickname
 				pd.setData("nick", null).queue();
 				return;
 			}

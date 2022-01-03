@@ -121,7 +121,7 @@ public class PlayerData extends AbstractPlayerData {
 		String name = getName();
 		
 		// If role is Donator or higher
-		if (role.getDominance() >= Role.DONATOR.getDominance())
+		if (role.getDominance() >= Role.VETERAN.getDominance())
 		{
 			return role.getColorCode() + (String) Optional.ofNullable(getData("nick")).orElse(name);
 		}
