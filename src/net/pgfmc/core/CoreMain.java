@@ -169,7 +169,6 @@ public class CoreMain extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(this, this);
 		
 		getServer().getPluginManager().registerEvents(new InventoryPressEvent(), this);
-		getServer().getPluginManager().registerEvents(new Permissions(), this);
 		getServer().getPluginManager().registerEvents(new PlayerDataManager(), this);
 		
 		
@@ -192,13 +191,6 @@ public class CoreMain extends JavaPlugin implements Listener {
 		}
 		isSurvivalEnabled = Bukkit.getPluginManager().isPluginEnabled("PGF-Survival");
 		isBotEnabled = Bukkit.getPluginManager().isPluginEnabled("PGF-Bot");
-	}
-	
-	@EventHandler
-	public void onJoin(PlayerJoinEvent e) {
-		if (PlayerData.getPlayerData(e.getPlayer()) == null) {
-			new PlayerData(e.getPlayer());
-		}
 	}
 	
 	public static boolean isSurvivalEnabled() {
