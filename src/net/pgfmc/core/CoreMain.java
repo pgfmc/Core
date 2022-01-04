@@ -11,7 +11,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.event.server.ServerLoadEvent.LoadType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,8 +24,6 @@ import net.pgfmc.core.cmd.admin.Tagging;
 import net.pgfmc.core.cmd.donator.Nick;
 import net.pgfmc.core.configify.ReloadConfigify;
 import net.pgfmc.core.inventoryAPI.InventoryPressEvent;
-import net.pgfmc.core.permissions.Permissions;
-import net.pgfmc.core.playerdataAPI.PlayerData;
 import net.pgfmc.core.playerdataAPI.PlayerDataManager;
 
 /**
