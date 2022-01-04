@@ -34,7 +34,7 @@ public abstract class ListInventory extends BaseInventory {
 	 * @param name Name displayed at the top of the inventory's interface.
 	 * @param itemController The function that is ran per entry in "entries"; itemController must return a button Object, with the entry itself as the input.
 	 */
-	public ListInventory(SizeData size, String name, List<Button> entries) {
+	public ListInventory(SizeData size, String name) {
 		super(size, name);
 		
 		if (size == SizeData.DROPPER || size == SizeData.HOPPER) {
@@ -56,7 +56,7 @@ public abstract class ListInventory extends BaseInventory {
 	}
 	
 	public Button[][] getPages() {
-		return pages;
+		return pages.clone();
 	}
 	
 	public void refresh() {
@@ -71,7 +71,6 @@ public abstract class ListInventory extends BaseInventory {
 		}
 		
 		setPage(page);
-		
 	}
 	
 	/**
