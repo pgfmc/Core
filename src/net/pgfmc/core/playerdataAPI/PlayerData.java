@@ -25,6 +25,8 @@ import net.pgfmc.core.permissions.Role;
 /**
  * stores dynamic, temporary and non-temporary data for each player.
  * @author CrimsonDart
+ * @since 2.0.0
+ * @version 4.0.2
  */
 public class PlayerData extends AbstractPlayerData {
 	
@@ -44,7 +46,7 @@ public class PlayerData extends AbstractPlayerData {
 	 * Creates a new PlayerData for anyone who joins the server for the first time.
 	 * @param p Player who joined.
 	 */
-	public PlayerData(OfflinePlayer p) {
+	PlayerData(OfflinePlayer p) {
 		super(p);
 		
 		PlayerData pd = getPlayerData(p);
