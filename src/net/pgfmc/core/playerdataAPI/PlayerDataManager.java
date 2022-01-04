@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import net.pgfmc.core.CoreMain;
+import net.pgfmc.core.permissions.Permissions;
 
 public class PlayerDataManager implements Listener {
 	
@@ -85,7 +86,14 @@ public class PlayerDataManager implements Listener {
 	
 	@EventHandler
 	public void onJoinEvent(PlayerJoinEvent e) {
+		PlayerData pd = PlayerData.getPlayerData(e.getPlayer());
+		
+		if (pd == null) {
+			pd = new PlayerData(e.getPlayer());
+		}
+		
 		PlayerData.getPlayerData(e.getPlayer()).setOnline(e.getPlayer());
+		Permissions.recalcPerms(pd);
 	}
 	
 	@EventHandler

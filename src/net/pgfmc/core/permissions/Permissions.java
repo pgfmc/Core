@@ -3,15 +3,12 @@ package net.pgfmc.core.permissions;
 import java.util.List;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.PermissionAttachment;
 
 import net.pgfmc.core.CoreMain;
 import net.pgfmc.core.playerdataAPI.PlayerData;
 
-public class Permissions implements Listener {
+public class Permissions {
 	
 	public static final String[] disabledPerms = {
 			"minecraft.command.teammsg"
@@ -226,12 +223,5 @@ public class Permissions implements Listener {
 		
 		p.recalculatePermissions();
 		p.updateCommands();
-	}
-	
-	@EventHandler
-	public void onJoin(PlayerJoinEvent e) {
-		if (e.getPlayer() != null) {
-			recalcPerms(PlayerData.getPlayerData(e.getPlayer()));
-		}
 	}
 }
