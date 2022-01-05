@@ -1,4 +1,4 @@
-package net.pgfmc.core.inventoryAPI;
+package net.pgfmc.core.inventoryAPI.extra;
 
 import java.util.LinkedList;
 
@@ -117,7 +117,7 @@ public class Button implements Cloneable {
 	 * runs the lambda expression Butto
 	 * @param player the object of the operation.
 	 */
-	protected void run(InventoryClickEvent e, int slot) {
+	public void run(InventoryClickEvent e, int slot) {
 		function.press(e, slot);
 	}
 	

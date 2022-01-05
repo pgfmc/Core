@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.bukkit.Material;
 
+import net.pgfmc.core.inventoryAPI.extra.Button;
+import net.pgfmc.core.inventoryAPI.extra.SizeData;
+
 public abstract class ListInventory extends BaseInventory {
 	
 	/**
@@ -62,12 +65,12 @@ public abstract class ListInventory extends BaseInventory {
 	public void refresh() {
 		List<Button> entries = load();
 		
-		pages = new Button[(int) Math.ceil(entries.size() / (float) sizeD.getPageSize())][sizeD.pageSize];
+		pages = new Button[(int) Math.ceil(entries.size() / (float) sizeD.getPageSize())][sizeD.getPageSize()];
 		
 		for (int i = 0;
 				i < entries.size();
 				i++	) {
-			pages[i / sizeD.pageSize][i % sizeD.pageSize] = entries.get(i);
+			pages[i / sizeD.getPageSize()][i % sizeD.getPageSize()] = entries.get(i);
 		}
 		
 		setPage(page);
@@ -182,6 +185,4 @@ public abstract class ListInventory extends BaseInventory {
 		persistentButton = b;
 		setButton(0, persistentButton);
 	}
-	
-	
 }

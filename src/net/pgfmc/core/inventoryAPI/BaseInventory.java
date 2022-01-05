@@ -6,6 +6,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
+import net.pgfmc.core.inventoryAPI.extra.Button;
+import net.pgfmc.core.inventoryAPI.extra.SizeData;
+
 /**
  * The basic Inventory.
  * @author CrimsonDart
@@ -39,10 +42,15 @@ public abstract class BaseInventory implements InventoryHolder {
 		buttons = new Button[size.getSize()];
 	}
 	
-	public void setButton(int slot, Button b) {
+	/**
+	 * Sets a slot in the inventory to a button.
+	 * @param slot
+	 * @param b
+	 */
+	void setButton(int slot, Button b) {
 		if (b == null) b = new Button(Material.AIR);
 		
-		if (slot < sizeD.size && slot > -1) {
+		if (slot < sizeD.getSize() && slot > -1) {
 			buttons[slot] = b;
 			inv.setItem(slot, b.getItem());
 		}
@@ -52,7 +60,7 @@ public abstract class BaseInventory implements InventoryHolder {
 	 * Returns all buttons from the inventory.
 	 * Changes to the returned array will NOT reflect changes in the inventory.
 	 */
-	public Button[] getButtons() {
+	public final Button[] getButtons() {
 		return buttons.clone();
 	}
 	
@@ -75,7 +83,7 @@ public abstract class BaseInventory implements InventoryHolder {
 	 * @param p The player that clicked the slot.
 	 * @param e The InventoryClickEvent that caused the press.
 	 */
-	protected void press(int slot, InventoryClickEvent e) {
+	public final void press(int slot, InventoryClickEvent e) {
 		
 		if (slot + 1 > inv.getSize()) return;
 		

@@ -1,4 +1,4 @@
-package net.pgfmc.core.inventoryAPI;
+package net.pgfmc.core.inventoryAPI.extra;
 
 /**
  * Enum to store data for chest sizes.
@@ -20,11 +20,11 @@ public enum SizeData {
 		this.pageSize = pageSize;
 	}
 	
-	int getSize() {
+	public int getSize() {
 		return size;
 	}
 	
-	int getPageSize() {
+	public int getPageSize() {
 		return pageSize;
 	}
 }

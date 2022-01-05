@@ -1,4 +1,4 @@
-package net.pgfmc.core.inventoryAPI;
+package net.pgfmc.core.inventoryAPI.extra;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 
