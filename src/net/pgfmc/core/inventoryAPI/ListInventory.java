@@ -28,7 +28,7 @@ public abstract class ListInventory extends BaseInventory {
 	 * Abstract method used to get the list used to construct this Inventory.
 	 * @return The list used in this Inventory.
 	 */
-	abstract List<Button> load();
+	public abstract List<Button> load();
 	
 	/**
 	 * Constructor for PagedInventory. The inventory can be in two sizes: 27 or 56 (single or double chest). 

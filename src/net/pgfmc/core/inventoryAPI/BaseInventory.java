@@ -47,7 +47,7 @@ public abstract class BaseInventory implements InventoryHolder {
 	 * @param slot
 	 * @param b
 	 */
-	void setButton(int slot, Button b) {
+	public void setButton(int slot, Button b) {
 		if (b == null) b = new Button(Material.AIR);
 		
 		if (slot < sizeD.getSize() && slot > -1) {

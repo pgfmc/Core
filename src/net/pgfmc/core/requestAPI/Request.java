@@ -180,10 +180,8 @@ public class Request {
 	 * @return true if same
 	 * 
 	 */
-	public boolean isSame(Player initiate, Player target)
-	{
-		if (this.initiate.getUniqueId().equals(initiate.getUniqueId()) && this.target.getUniqueId().equals(target.getUniqueId()))
-		{ return true; } else { return false; }
+	public boolean isSame(Player initiate, Player target) {
+		return (this.initiate.getUniqueId().equals(initiate.getUniqueId()) && this.target.getUniqueId().equals(target.getUniqueId()));
 	}
 	
 	public Requester getParent() {
