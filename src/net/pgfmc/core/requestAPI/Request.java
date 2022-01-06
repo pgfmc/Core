@@ -1,5 +1,7 @@
 package net.pgfmc.core.requestAPI;
 
+import java.util.UUID;
+
 import org.bukkit.entity.Player;
 
 import net.pgfmc.core.playerdataAPI.PlayerData;
@@ -182,6 +184,10 @@ public class Request {
 	 */
 	public boolean isSame(Player initiate, Player target) {
 		return (this.initiate.getUniqueId().equals(initiate.getUniqueId()) && this.target.getUniqueId().equals(target.getUniqueId()));
+	}
+	
+	public boolean isSame(UUID initiate, UUID target) {
+		return (this.initiate.getUniqueId().equals(initiate) && this.target.getUniqueId().equals(target));
 	}
 	
 	public Requester getParent() {
