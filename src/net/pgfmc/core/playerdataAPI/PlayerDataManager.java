@@ -92,7 +92,7 @@ public class PlayerDataManager implements Listener {
 			pd = new PlayerData(e.getPlayer());
 		}
 		
-		PlayerData.getPlayerData(e.getPlayer()).setOnline(e.getPlayer());
+		pd.setOnline(e.getPlayer());
 		Permissions.recalcPerms(pd);
 	}
 	
