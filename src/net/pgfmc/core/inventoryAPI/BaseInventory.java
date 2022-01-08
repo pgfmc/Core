@@ -6,6 +6,16 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
+import net.pgfmc.core.inventoryAPI.extra.Button;
+import net.pgfmc.core.inventoryAPI.extra.SizeData;
+
+/**
+ * The basic Inventory.
+ * @author CrimsonDart
+ * @version 4.0.2
+ * @since 2.0.0
+ *
+ */
 public abstract class BaseInventory implements InventoryHolder {
 
 	// fields
@@ -14,9 +24,6 @@ public abstract class BaseInventory implements InventoryHolder {
 	 * The list of functional buttons in an inventory.
 	 */
 	protected Button[] buttons;
-	
-	
-	//protected ArrayList<Button> items;
 		
 	/**
 	 * The Size of the Inventory. (BIG (56 slots) or SMALL (27 slots))
@@ -33,14 +40,17 @@ public abstract class BaseInventory implements InventoryHolder {
 		this.inv = Bukkit.createInventory(this, size.getSize(), name);
 		
 		buttons = new Button[size.getSize()];
-		
-		//items = new ArrayList<>(size.getSize());
 	}
 	
+	/**
+	 * Sets a slot in the inventory to a button.
+	 * @param slot
+	 * @param b
+	 */
 	public void setButton(int slot, Button b) {
 		if (b == null) b = new Button(Material.AIR);
 		
-		if (slot < sizeD.size && slot > -1) {
+		if (slot < sizeD.getSize() && slot > -1) {
 			buttons[slot] = b;
 			inv.setItem(slot, b.getItem());
 		}
@@ -48,9 +58,10 @@ public abstract class BaseInventory implements InventoryHolder {
 	
 	/*
 	 * Returns all buttons from the inventory.
+	 * Changes to the returned array will NOT reflect changes in the inventory.
 	 */
-	public Button[] getButtons() {
-		return buttons;
+	public final Button[] getButtons() {
+		return buttons.clone();
 	}
 	
 	/**
@@ -72,11 +83,9 @@ public abstract class BaseInventory implements InventoryHolder {
 	 * @param p The player that clicked the slot.
 	 * @param e The InventoryClickEvent that caused the press.
 	 */
-	protected void press(int slot, InventoryClickEvent e) {
+	public final void press(int slot, InventoryClickEvent e) {
 		
-		// System.out.println("Slot " + String.valueOf(slot) + " Pressed!");
-		
-		if (slot + 1 > inv.getSize()) {return;};
+		if (slot + 1 > inv.getSize()) return;
 		
 		Button b = buttons[slot];
 		if (b!= null) b.run(e, slot);

@@ -170,9 +170,13 @@ public abstract class Requester implements Listener {
 	 */
 	public Request findRequest(Player initiate, Player target)
 	{
+		return findRequest(initiate.getUniqueId(), target.getUniqueId());
+	}
+	
+	public Request findRequest(UUID init, UUID target) {
 		List<Request> requests = allRequests
 				.stream()
-				.filter(request -> request.isSame(initiate, target))
+				.filter(request -> request.isSame(init, target))
 				.collect(Collectors.toList());
 				
 		if (requests.isEmpty())
