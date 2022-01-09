@@ -12,6 +12,7 @@ public class ReloadConfigify implements CommandExecutor {
 		if (args.length == 1 && args[0].equals("reload"))
 		{
 			Configify.reloadConfigs();
+			sender.sendMessage("Configify reloaded!");
 		}
 		
 		return true;

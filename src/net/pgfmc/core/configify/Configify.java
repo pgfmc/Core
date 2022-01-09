@@ -21,6 +21,7 @@ public abstract class Configify {
 	public static void reloadConfigs()
 	{
 		configs.stream().forEach(c -> c.reload());
+		System.out.println("Configify reloaded");
 	}
 	
 	/**
