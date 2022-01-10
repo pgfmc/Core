@@ -16,6 +16,7 @@ import org.bukkit.event.server.ServerLoadEvent.LoadType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
+import net.pgfmc.core.chat.ProfanityFilter;
 import net.pgfmc.core.cmd.Blocked;
 import net.pgfmc.core.cmd.Goto;
 import net.pgfmc.core.cmd.admin.Broadcast;
@@ -170,6 +171,7 @@ public class CoreMain extends JavaPlugin implements Listener {
 		
 		System.out.println(Bukkit.getServer().getCommandAliases());
 		
+		new ProfanityFilter();
 		new ReloadConfigify().init();
 	}
 	
