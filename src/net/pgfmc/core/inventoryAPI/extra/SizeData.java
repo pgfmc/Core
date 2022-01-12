@@ -7,7 +7,7 @@ package net.pgfmc.core.inventoryAPI.extra;
  *
  */
 public enum SizeData {
-	BIG(56, 36),
+	BIG(54, 36),
 	SMALL(27, 21),
 	HOPPER(5, 0),
 	DROPPER(9, 0);
