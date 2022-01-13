@@ -1,5 +1,6 @@
 package net.pgfmc.core.inventoryAPI.extra;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 /**
@@ -10,13 +11,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 @FunctionalInterface
 public interface Butto {
 	
-	public void press(InventoryClickEvent e, int slot);
+	public void press(Player p, InventoryClickEvent e);
 	
 	/**
 	 * The default button function used in place of null.
 	 */
-	public static final Butto defaultButto = (e, i) -> {};
-	public static final Butto unProtectedButto = (e, i) -> {
-		e.setCancelled(false);
-	};
+	public static final Butto defaultButto = (pd, e) -> {};
 }
