@@ -1,5 +1,5 @@
 name: PGF-Core
-version: 4.0.5
+version: 4.0.6
 api-version: 1.18
 authors: [bk, CrimsonDart]
 website: play.pgfmc.net
@@ -14,10 +14,6 @@ commands:
     description: Teleport to a different world
     usage: /<command> [world]
     permission: pgf.cmd.goto
-  block:
-    description: Block a player from all requests
-    usage: /<command> [player]
-    permission: pgf.cmd.block
   nick:
     usage: /<command> [nickname]
     description: Set a custom nickname

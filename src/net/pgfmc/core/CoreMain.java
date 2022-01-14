@@ -17,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
 import net.pgfmc.core.chat.ProfanityFilter;
-import net.pgfmc.core.cmd.Blocked;
 import net.pgfmc.core.cmd.Goto;
 import net.pgfmc.core.cmd.admin.Broadcast;
 import net.pgfmc.core.cmd.admin.Skull;
@@ -124,15 +123,11 @@ public class CoreMain extends JavaPlugin implements Listener {
 			
 			pd.setData("homes", homes);
 		});
-		PlayerDataManager.setInit(pd -> { // XXX fix
+		PlayerDataManager.setInit(pd -> {
 			
 			FileConfiguration db = pd.loadFile();
 			
-			if (db == null)
-			{
-				new Exception("FileConfiguration for PlayerData setInit is null.").printStackTrace();
-				return;
-			}
+			if (db == null) throw new NullPointerException();
 			
 			pd.setData("nick", Optional.ofNullable(db.getString("nick")).orElse(null));
 		});
@@ -150,7 +145,7 @@ public class CoreMain extends JavaPlugin implements Listener {
 		// getCommand("goto").setAliases(DimManager.getAllWorldNames()); // /hub, /creative, /<world>
 		
 		
-		getCommand("block").setExecutor(new Blocked());
+		// getCommand("block").setExecutor(new Blocked()); // Breaks the server
 		
 		getCommand("nick").setExecutor(new Nick());
 		
