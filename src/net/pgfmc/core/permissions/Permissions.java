@@ -25,7 +25,6 @@ public class Permissions {
 			"pgf.cmd.tp.tpaccept",
 			"pgf.cmd.tp.tpdeny",
 			"pgf.cmd.afk",
-			"pgf.cmd.block",
 			"pgf.cmd.help",
 			"pgf.cmd.link",
 			"pgf.cmd.unlink",
