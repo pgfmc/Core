@@ -2,11 +2,14 @@ package net.pgfmc.core.inventoryAPI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 
-import net.pgfmc.core.inventoryAPI.extra.Button;
+import net.pgfmc.core.inventoryAPI.extra.Butto;
+import net.pgfmc.core.inventoryAPI.extra.ItemWrapper;
 import net.pgfmc.core.inventoryAPI.extra.SizeData;
 
 /**
@@ -16,14 +19,14 @@ import net.pgfmc.core.inventoryAPI.extra.SizeData;
  * @since 2.0.0
  *
  */
-public abstract class BaseInventory implements InventoryHolder {
+public class BaseInventory implements InventoryHolder {
 
 	// fields
 		
 	/**
 	 * The list of functional buttons in an inventory.
 	 */
-	protected Button[] buttons;
+	protected Butto[] buttons;
 		
 	/**
 	 * The Size of the Inventory. (BIG (56 slots) or SMALL (27 slots))
@@ -33,34 +36,43 @@ public abstract class BaseInventory implements InventoryHolder {
 	/**
 	 * The inventory itself.
 	 */
-	protected Inventory inv;
+	private Inventory inv;
 	
 	public BaseInventory(SizeData size, String name) {
 		sizeD = size;
 		this.inv = Bukkit.createInventory(this, size.getSize(), name);
 		
-		buttons = new Button[size.getSize()];
+		buttons = new Butto[size.getSize()];
 	}
 	
-	/**
-	 * Sets a slot in the inventory to a button.
-	 * @param slot
-	 * @param b
-	 */
-	public void setButton(int slot, Button b) {
-		if (b == null) b = new Button(Material.AIR);
+	public void setAction(int slot, Butto b) {
+		if (slot + 1 > inv.getSize()) return;
 		
-		if (slot < sizeD.getSize() && slot > -1) {
-			buttons[slot] = b;
-			inv.setItem(slot, b.getItem());
-		}
+		buttons[slot] = b;
+	}
+	
+	public ItemWrapper setItem(int slot, ItemStack item) {
+		if (slot + 1 > inv.getSize()) return null;
+		
+		
+		ItemWrapper iw = new ItemWrapper(item);
+		inv.setItem(slot, iw.gi());
+		return iw;
+	}
+	
+	public ItemWrapper setItem(int slot, Material mat) {
+		if (slot + 1 > inv.getSize()) return null;
+		
+		ItemWrapper iw = new ItemWrapper(mat);
+		inv.setItem(slot, iw.gi());
+		return iw;
 	}
 	
 	/*
 	 * Returns all buttons from the inventory.
 	 * Changes to the returned array will NOT reflect changes in the inventory.
 	 */
-	public final Button[] getButtons() {
+	public final Butto[] getActions() {
 		return buttons.clone();
 	}
 	
@@ -69,12 +81,8 @@ public abstract class BaseInventory implements InventoryHolder {
 	 * @param index The slot of the inventory.
 	 * @return Returns the button at the input slot, and null if there is no button at that slot.
 	 */
-	public Button getButton(int index) {
+	public Butto getAction(int index) {
 		return buttons[index];
-	}
-	
-	public void remove(int index) {
-		setButton(index, null);
 	}
 	
 	/**
@@ -87,8 +95,8 @@ public abstract class BaseInventory implements InventoryHolder {
 		
 		if (slot + 1 > inv.getSize()) return;
 		
-		Button b = buttons[slot];
-		if (b!= null) b.run(e, slot);
+		Butto b = buttons[slot];
+		if (b!= null) b.press((Player) e.getWhoClicked(), e);
 		return;
 	}
 	

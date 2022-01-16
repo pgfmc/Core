@@ -3,21 +3,17 @@ package net.pgfmc.core.inventoryAPI;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
-import net.pgfmc.core.inventoryAPI.extra.Button;
+import net.pgfmc.core.inventoryAPI.extra.Butto;
 import net.pgfmc.core.inventoryAPI.extra.SizeData;
 
-public abstract class ListInventory extends BaseInventory {
+public abstract class ListInventory<T> extends BaseInventory {
 	
 	/**
 	 * The List of entries, in the form of Button(s).
 	 */
-	protected Button[][] pages;
-	
-	/*
-	 * The Button that is in the top left corner in SMALL inventories, or in the center in BIG ones. Usually used as a back button.
-	 */
-	Button persistentButton;
+	private T[][] pages;
 	
 	/**
 	 * holds the current page.
@@ -28,7 +24,26 @@ public abstract class ListInventory extends BaseInventory {
 	 * Abstract method used to get the list used to construct this Inventory.
 	 * @return The list used in this Inventory.
 	 */
-	public abstract List<Button> load();
+	protected abstract List<T> load();
+	
+	/**
+	 * Method to be implemented by the extender of this class.
+	 * The input is an entry from the list returned from load();
+	 * This method must return a Butto lambda function reflecting the 
+	 * input value.
+	 * @param entry The input value from load().
+	 * @param slot The slot this entry is in.
+	 * @return The Butto lambda function ran when this entry is pressed in-inventory.
+	 */
+	protected abstract Butto toAction(T entry, int slot);
+	
+	/**
+	 * Translates an entry in the list returned by load() to an ItemStack.
+	 * The ItemStack that is returned should represent/reflect the input entry.
+	 * @param entry The object to be translated into an ItemStack.
+	 * @return The Item used to represent the input entry in-inventory.
+	 */
+	protected abstract ItemStack toItem(T entry);
 	
 	/**
 	 * Constructor for PagedInventory. The inventory can be in two sizes: 27 or 56 (single or double chest). 
@@ -48,24 +63,13 @@ public abstract class ListInventory extends BaseInventory {
 	}
 	
 	/**
-	 * Sets the persistent button to 
-	 * @param ae
+	 * reloads the list that this ListInventory is based on.
 	 */
-	public void setBackButton(BaseInventory ae) {
-		
-		setPersistentButton(new Button(Material.FEATHER, (e, i) -> {
-			e.getWhoClicked().openInventory(ae.getInventory());
-		}, "§r§7Back"));
-	}
-	
-	public Button[][] getPages() {
-		return pages.clone();
-	}
-	
+	@SuppressWarnings("unchecked")
 	public void refresh() {
-		List<Button> entries = load();
+		List<T> entries = load();
 		
-		pages = new Button[(int) Math.ceil(entries.size() / (float) sizeD.getPageSize())][sizeD.getPageSize()];
+		pages = (T[][]) new Object[(int) Math.ceil(entries.size() / (float) sizeD.getPageSize())][sizeD.getPageSize()];
 		
 		for (int i = 0;
 				i < entries.size();
@@ -81,7 +85,7 @@ public abstract class ListInventory extends BaseInventory {
 	 * @param index The index of the item in the given page.
 	 * @return Returns the Respective slot for the given "index" in a 27 slot inventory.
 	 */
-	protected int entryToSlot(int index) {
+	private int entryToSlot(int index) {
 		
 		if (index >= 0 && index < 7) {
 			return index + 2;
@@ -96,7 +100,7 @@ public abstract class ListInventory extends BaseInventory {
 		
 	}
 	
-	protected void flipPage(int flips) {
+	private void flipPage(int flips) {
 		if (flips + page > 0 && flips + page <= pages.length) {
 			page = page + flips;
 			setPage(page);
@@ -107,7 +111,7 @@ public abstract class ListInventory extends BaseInventory {
 	 * Manages all page turning. 
 	 * @param page The page that the inventory will be set to.
 	 */
-	protected void setPage(int newPage) {
+	private void setPage(int newPage) {
 		
 		if (newPage > pages.length || newPage < 1) return;
 		
@@ -120,69 +124,82 @@ public abstract class ListInventory extends BaseInventory {
 			
 			// sets the Previous page button, if apropriate.
 			if (page > 1) {
-				setButton(48, new Button(Material.IRON_HOE, (x, e) -> {
+				setAction(48, (x, e) -> {
 					flipPage(-1);
-				}, "Previous Page"));
+				});
+				
+				setItem(48, Material.IRON_HOE).n("Previous Page");
+				
+				
 			} else {
-				setButton(48, null);
+				setItem(48, Material.AIR);
+				setAction(48, null);
 			}
 			
 			// sets the next page button, if apropriate.
 			if (page < pages.length) {
-				setButton(50, new Button(Material.ARROW, (x, e) -> {
+				
+				setAction(50, (x, e) -> {
 					flipPage(+1);
-				}, "Next Page"));
+				});
+				
+				setItem(50, Material.ARROW).n("Next Page");
+				
 			} else {
-				setButton(50, null);
+				setItem(50, Material.AIR);
+				setAction(50, null);
 			}
 			
-			Button[] currentPage = pages[page -1];
+			T[] currentPage = pages[page -1];
 			for (int i = 0;
 					i < 36;
 					i++) {
+				int enty = entryToSlot(i);
+				setAction(enty, toAction(currentPage[i], enty));
 				
-				setButton(i, currentPage[i]);
+				setItem(enty, toItem(currentPage[i]));
 			}
 			
 		} else if (sizeD == SizeData.SMALL) {
 			
 			// sets the Previous page button, if apropriate.
 			if (page > 1) {
-				setButton(9, new Button(Material.IRON_HOE, (x, e) -> {
+				
+				setAction(9, (x, e) -> {
 					flipPage(-1);
-				}, "Previous Page"));
+				});
+				
+				setItem(9, Material.IRON_HOE).n("Previous Page");
+				
 			} else {
-				setButton(9, null);
+				setItem(9, Material.AIR);
+				setAction(9, null);
 			}
 			
 			// sets the next page button, if apropriate.
 			if (page < pages.length) {
-				setButton(18, new Button(Material.ARROW, (x, e) -> {
+				
+				setAction(18, (x, e) -> {
 					flipPage(+1);
-				}, "Next Page"));
+				});
+				
+				setItem(18, Material.ARROW).n("Next Page");
+				
+				
 			} else {
-				setButton(18, null);
+				setItem(18, Material.AIR);
+				setAction(18, null);
 			}
 			
-			Button[] currentPage = pages[page -1];
+			T[] currentPage = pages[page -1];
 			for (int i = 0;
 					i < 21;
 					i++) {
+				int enty = entryToSlot(i);
+				setAction(enty, toAction(currentPage[i], enty));
 				
-				setButton(entryToSlot(i), currentPage[i]);
+				setItem(enty, toItem(currentPage[i]));
 			}
 		}
-	}
-	
-	/**
-	 * Set the button in the top left corner. This is the only button with a special function, so use it wisely.
-	 * @param mat The material of the item used.
-	 * @param name The name given to the item.
-	 * @param lore The lore to be added to the item.
-	 * @param function The code that is to be ran when the button is pressed, in the form of a lambda function.
-	 */
-	protected void setPersistentButton(Button b) {
-		persistentButton = b;
-		setButton(0, persistentButton);
 	}
 }
